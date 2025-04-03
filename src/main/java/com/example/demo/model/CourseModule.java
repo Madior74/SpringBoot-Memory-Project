@@ -48,7 +48,7 @@ public class CourseModule {
 
     @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Note> notes = new ArrayList<>();
+    private List<Devoir> devoirNotes = new ArrayList<>();
 
 
 

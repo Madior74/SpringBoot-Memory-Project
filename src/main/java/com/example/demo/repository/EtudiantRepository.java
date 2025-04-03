@@ -22,6 +22,8 @@ public interface EtudiantRepository extends JpaRepository<Etudiant,Long>{
     Optional<Etudiant> findByIne(String ine);
       List<Etudiant> findByFiliere(Filiere filiere);
       List<Etudiant> findByNiveau(Niveau niveau);
+      Optional<Etudiant> findByEmail(String email);
+
 
       boolean existsByEmail(String email );
 

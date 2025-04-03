@@ -2,7 +2,10 @@ package com.example.demo.model;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -10,6 +13,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -59,8 +63,10 @@ public class Professeur {
     private String email;
     private String password;
 
-    
+    @Column(nullable = false)
+    private String role; 
 
+    
     @ManyToOne
     @JoinColumn(name = "region_id",nullable = false)
     private Region region;

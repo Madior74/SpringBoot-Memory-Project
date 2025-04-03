@@ -5,10 +5,10 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.model.Professeur;
+import com.example.demo.model.Role;
+import com.example.demo.model.Role.ERole;
+
 @Repository
-public interface ProfesseurRepository  extends JpaRepository<Professeur, Long> {  
-        Optional<Professeur> findByEmail(String email);
-  
-    
+public interface RoleRepository extends JpaRepository<Role, Long> {
+    Optional<Role> findByName(ERole name);
 }

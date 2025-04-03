@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,15 +16,20 @@ import jakarta.persistence.*;
 @Entity
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class Note {
+public class Examen {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double noteDevoir;  
     private Double noteExamen;  
     private Double moyenne;
+
+     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date dateExamen;
+
+
      @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateAjout;    
 
@@ -39,21 +45,6 @@ public class Note {
     @JoinColumn(name = "module_id", nullable = false)
     private CourseModule module;
 
-    public void calculerMoyenne() {
-        if (noteDevoir != null && noteExamen != null) {
-            this.moyenne = (noteDevoir * 0.3) + (noteExamen * 0.7);
-        } else {
-            this.moyenne = null; 
-        }
-    }
-
-    public void setNoteDevoir(Double noteDevoir) {
-        this.noteDevoir = noteDevoir;
-        calculerMoyenne();
-    }
-
-    public void setNoteExamen(Double noteExamen) {
-        this.noteExamen = noteExamen;
-        calculerMoyenne();
-    }
+   
+  
 }

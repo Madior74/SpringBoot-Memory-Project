@@ -17,26 +17,27 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
-@Entity
-public class UE {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    private String nomUE;
-    private String codeUE;
-    private int nbreCredit;
+    @Entity
+    public class UE {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "semestre_id", nullable = false)
-    @JsonIgnore
-    private Semestre semestre;
+        private String nomUE;
+        private String codeUE;
+        private int nbreCredit;
 
-    @OneToMany(mappedBy = "ue", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CourseModule> modules = new ArrayList<>();
+        @ManyToOne
+        @JoinColumn(name = "semestre_id", nullable = false)
+        @JsonIgnore
+        private Semestre semestre;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
-    private LocalDateTime dateAjout;
+        @OneToMany(mappedBy = "ue", cascade = CascadeType.ALL, orphanRemoval = true)
+        private List<CourseModule> modules = new ArrayList<>();
+
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+        private LocalDateTime dateAjout;
 
     // Constructeurs
     public UE() {}

@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.model.CourseModule;
 import com.example.demo.model.Professeur;
+import com.example.demo.model.Role;
 import com.example.demo.model.Specialite;
 import com.example.demo.repository.ModuleRepository;
 import com.example.demo.repository.ProfesseurRepository;
+import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.SpecialiteRepository;
 
 import jakarta.transaction.Transactional;
@@ -20,8 +22,9 @@ public class ProfesseurService {
 
     @Autowired
     private ProfesseurRepository professeurRepository;
-
-   
+    
+   @Autowired
+   private RoleRepository repository;
 
     @Autowired
     private  SpecialiteRepository specialiteRepository;
@@ -39,34 +42,13 @@ public class ProfesseurService {
     }
 
     //Ajouter un prof
-    // public Professeur creatProfesseur(Professeur  professeur,List<Long> modulesIds){
-    //     if(modulesIds !=null &&!modulesIds.isEmpty()){
-    //         List<CourseModule> modules=moduleRepository.findAllById(modulesIds);
-    //         professeur.setModules(modules);
-    //     }
-    //     return professeurRepository.save(professeur);
-    // }
-
-    
-// public Professeur creatProfesseur(Professeur professeur, List<Long> modulesIds) {
-//     // 1. First save the professeur (generates ID)
-//     professeur = professeurRepository.save(professeur); 
-    
-//     // 2. Then handle modules (if provided)
-//     if (modulesIds != null && !modulesIds.isEmpty()) {
-//         List<Specialite> spclt = specialiteRepository.findAllById(modulesIds);
-//         professeur.se(spclt); // Safe now that professeur has ID
-//     }
-    
-//     return professeur; // No need to save again (cascade handles it)
-// }
-
 
 public Professeur createProfesseur(Professeur professeur, List<Long> modulesIds) {
     if (modulesIds != null && !modulesIds.isEmpty()) {
         List<Specialite> spec = specialiteRepository.findAllById(modulesIds);
         professeur.setSpecialites(spec);
     }
+   
     return professeurRepository.save(professeur);
 }
 
