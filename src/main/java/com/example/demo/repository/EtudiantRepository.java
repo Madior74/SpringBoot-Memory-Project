@@ -30,6 +30,9 @@ public interface EtudiantRepository extends JpaRepository<Etudiant,Long>{
    //Pour  tous les etudiants inscrit dans une Filiere
    List<Etudiant> findByFiliereId(Long filiereId);
 
+   //Pour tous les etudiants inscrit dans un Niveau
+   List<Etudiant> findByNiveauId(Long NiveauId);
+
   
     // Compter par ID de filière
     long countByFiliereId(Long filiereId);

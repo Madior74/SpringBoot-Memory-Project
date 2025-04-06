@@ -71,6 +71,7 @@ public class EtudiantController {
    
 @PostMapping("/save")
 public ResponseEntity<?> ajouterEtudiant(@RequestBody Map<String, Object> payload) {
+    System.out.println("Données reçues : " + payload);
     // Validate required fields
     Map<String, String> errors = new HashMap<>();
     
@@ -112,6 +113,7 @@ public ResponseEntity<?> ajouterEtudiant(@RequestBody Map<String, Object> payloa
         etudiant.setPaysDeNaissance((String) payload.get("paysDeNaissance"));
         etudiant.setCni((String) payload.get("cni"));
         etudiant.setIne((String) payload.get("ine"));
+        etudiant.setRole((String) payload.get("role"));
 
         // Handle date
         String dateNaissanceStr = (String) payload.get("dateNaissance");
@@ -293,6 +295,18 @@ public ResponseEntity<?> updateEtudiant(@PathVariable("id") Long etudiantId, @Re
    public ResponseEntity<Long> getEtudiantsCountByFiliereId(@PathVariable Long filiereId) {
        long count = etudiantService.countEtudiantsByFiliereId(filiereId);
        return ResponseEntity.ok(count);
+   }
+
+
+
+   // Récupérer les étudiants par ID de niveau
+   @GetMapping("/niveau/{niveauId}")
+   public ResponseEntity<List<Etudiant>> getEtudiantsByNiveauId(@PathVariable Long niveauId) {
+       List<Etudiant> etudiants = etudiantService.getEtudiantaByNiveauId(niveauId);
+       if (etudiants.isEmpty()) {
+           return ResponseEntity.noContent().build(); // 204 No Content si aucun étudiant n'est trouvé
+       }
+       return ResponseEntity.ok(etudiants); // 200 OK avec la liste des étudiants
    }
 
 }

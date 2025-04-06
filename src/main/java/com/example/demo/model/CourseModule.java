@@ -42,78 +42,40 @@ public class CourseModule {
     private LocalDateTime dateAjout;
 
     @ManyToOne
-    @JoinColumn( nullable = false) // Un module doit forcément  appartenir à une UE
+    @JoinColumn(name = "ue_id", nullable = false)
     @JsonIgnore
     private UE ue;
 
-    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "courseModule", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Devoir> devoirNotes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "courseModule", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Examen> examenNotes = new ArrayList<>();
 
+    // Méthode pour calculer la moyenne finale d'un étudiant spécifique
+    public Double calculateFinalAverage(Etudiant etudiant) {
+        // Filtrer les notes de l'étudiant
+        double averageDevoir = devoirNotes.stream()
+                .filter(note -> note.getEtudiant().equals(etudiant))
+                .mapToDouble(Note::getNote)
+                .average()
+                .orElse(0.0);
 
+        double averageExamen = examenNotes.stream()
+                .filter(note -> note.getEtudiant().equals(etudiant))
+                .mapToDouble(Note::getNote)
+                .average()
+                .orElse(0.0);
 
+        // Calcul de la moyenne finale
+        return (averageDevoir * 0.3) + (averageExamen * 0.7);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // // Constructeurs
-    // public CourseModule() {}
-
-    // public CourseModule(String nomModule, int volumeHoraire, Double creditModule, UE ue) {
-    //     this.nomModule = nomModule;
-    //     this.volumeHoraire = volumeHoraire;
-    //     this.creditModule = creditModule;
-    //     this.ue = ue;
-    //     this.dateAjout = LocalDateTime.now();
-    // }
-
-    // // Getters et Setters
-    // public Long getId() { return id; }
-    // public void setId(Long id) { this.id = id; }
-
-    // public String getNomModule() { return nomModule; }
-    // public void setNomModule(String nomModule) { this.nomModule = nomModule; }
-
-    // public int getVolumeHoraire() { return volumeHoraire; }
-    // public void setVolumeHoraire(int volumeHoraire) { this.volumeHoraire = volumeHoraire; }
-
-    // public Double getCreditModule() { return creditModule; }
-    // public void setCreditModule(Double creditModule) { this.creditModule = creditModule; }
-
-    // public UE getUe() { return ue; }
-    // public void setUe(UE ue) { this.ue = ue; }
-
-    // public List<Note> getNotes() { return notes; }
-    // public void setNotes(List<Note> notes) { this.notes = notes; }
-
-    // public LocalDateTime getDateAjout() { return dateAjout; }
-    // public void setDateAjout(LocalDateTime dateAjout) { this.dateAjout = dateAjout; }
+    // Méthode pour vérifier si un étudiant obtient les crédits
+    public boolean isCreditObtained(Etudiant etudiant) {
+        Double finalAverage = calculateFinalAverage(etudiant);
+        return finalAverage != null && finalAverage >= 10.0;
+    }
 }

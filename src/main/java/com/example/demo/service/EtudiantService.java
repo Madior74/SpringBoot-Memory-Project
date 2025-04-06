@@ -23,9 +23,6 @@ public class EtudiantService {
     private EtudiantRepository etudiantRepository;
 
 
-  
-
-
 
    
     //Get Etudiant by Filiere
@@ -36,9 +33,9 @@ public class EtudiantService {
    
     // //Get Etudiant by Niveau
 
-    // public List<Etudiant> getEtudiantaByNiveau(Long niveauId){
-    //     return etudiantRepository.findByNiveauId(niveauId);
-    // }
+    public List<Etudiant> getEtudiantaByNiveauId(Long niveauId){
+        return etudiantRepository.findByNiveauId(niveauId);
+    }
 
 
     //get etudiant by session
@@ -77,6 +74,8 @@ public class EtudiantService {
         existingEtudiant.setDateDeNaissance(etudiant.getDateDeNaissance());
         existingEtudiant.setCni(etudiant.getCni());
         existingEtudiant.setIne(etudiant.getIne());
+        existingEtudiant.setRole(etudiant.getRole());
+        existingEtudiant.setRegion(etudiant.getRegion());
 
         // Mise à jour des relations
         existingEtudiant.setNiveau(etudiant.getNiveau());

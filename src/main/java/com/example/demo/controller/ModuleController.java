@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.CourseModule;
-
+import com.example.demo.model.UE;
 import com.example.demo.repository.ModuleRepository;
 import com.example.demo.service.ModuleService;
-
+import com.example.demo.service.UEService;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -36,6 +36,9 @@ public class ModuleController {
 
     @Autowired
     public ModuleRepository moduleRepository;
+
+    @Autowired
+    private UEService ueService;
 
 
     //recuperer tous les Modules
@@ -65,19 +68,43 @@ public class ModuleController {
    
     
 
-//    //creer une nouveau Module
-@PostMapping("/{ueId}/module")
-public ResponseEntity<String> addModuleToUE(@PathVariable Long ueId, @RequestBody CourseModule module) {
-    try {
-        moduleService.addModuleToUE(ueId, module);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Module ajouté avec succès à l'UE");
-    } catch (RuntimeException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout du module : " + e.getMessage());
-    }
-}
+// //    //creer une nouveau Module
+// @PostMapping("/{ueId}/module")
+// public ResponseEntity<String> addModuleToUE(@PathVariable Long ueId, @RequestBody CourseModule module) {
+//     try {
+//         moduleService.addModuleToUE(ueId, module);
+//         return ResponseEntity.status(HttpStatus.CREATED).body("Module ajouté avec succès à l'UE");
+//     } catch (RuntimeException e) {
+//         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//     } catch (Exception e) {
+//         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout du module : " + e.getMessage());
+//     }
+// }
 
+
+    @PostMapping("/ue/{ueId}")
+    public ResponseEntity<?> addModuleToUE(@PathVariable Long ueId,@RequestBody CourseModule courseModuleDetail ){
+        //Verifivation si l'Ue existe
+        UE ue=ueService.findById(ueId);
+        if(ue==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("UE non trouvé");
+        }
+
+        //Verification si le module existe deja dans l'UE
+        boolean moduleExists=moduleService.existsByNomModuleAndUe(courseModuleDetail.getNomModule(), ue);
+
+        if (moduleExists) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Ce module existe deja dans cette UE");
+            
+        }
+
+        //Creer le module
+        courseModuleDetail.setUe(ue);
+        CourseModule savCourseModule=moduleService.saveModule(courseModuleDetail);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savCourseModule);
+    }
+    
 
 
    ///Supprimer Un Module
@@ -95,5 +122,7 @@ public ResponseEntity<String> addModuleToUE(@PathVariable Long ueId, @RequestBod
         boolean exists=moduleService.moduleExist(nomModule, ueId);
         return ResponseEntity.ok(exists);
     }
+    
+
     
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.model.CourseModule;
+import com.example.demo.model.UE;
 
 
 public interface ModuleRepository extends JpaRepository<CourseModule, Long> {
@@ -16,6 +17,8 @@ public interface ModuleRepository extends JpaRepository<CourseModule, Long> {
 
 
     Optional<CourseModule> findByNomModule(String nomModule);
+
+    boolean existsByNomModuleAndUe(String nomModule,UE ue);
 
 
     

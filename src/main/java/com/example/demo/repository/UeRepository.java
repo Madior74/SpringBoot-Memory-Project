@@ -2,6 +2,8 @@ package com.example.demo.repository;
 
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,5 +17,6 @@ public interface UeRepository extends JpaRepository<UE, Long> {
     List<UE> findByNomUE(String nomUE);
     boolean existsByNomUEAndSemestre(String nomUE, Semestre semestre);
     boolean existsByNomUEAndSemestreId(String nomUE,Long semestreId);
+    
     
 }

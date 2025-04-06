@@ -70,4 +70,28 @@ public class ModuleService {
             throw new RuntimeException("UE not found with id: " + ueId);
         }
     }
+
+
+    public CourseModule saveModule(CourseModule module) {
+        return moduleRepository.save(module);
+    }
+
+
+    public void updateModule(Long moduleId, CourseModule moduleDetails) {
+        CourseModule module = moduleRepository.findById(moduleId)
+                .orElseThrow(() -> new RuntimeException("Module not found with id: " + moduleId));
+
+        module.setNomModule(moduleDetails.getNomModule());
+        module.setVolumeHoraire(moduleDetails.getVolumeHoraire());
+        module.setCreditModule(moduleDetails.getCreditModule());
+        module.setDateAjout(LocalDateTime.now());
+
+        moduleRepository.save(module);
+    }
+
+
+    //
+    public boolean existsByNomModuleAndUe(String nomModule,UE ue){
+        return moduleRepository.existsByNomModuleAndUe(nomModule ,ue);
+    }
 }

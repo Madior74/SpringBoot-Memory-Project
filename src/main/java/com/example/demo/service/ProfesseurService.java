@@ -7,11 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.model.CourseModule;
 import com.example.demo.model.Professeur;
-import com.example.demo.model.Role;
 import com.example.demo.model.Specialite;
 import com.example.demo.repository.ModuleRepository;
 import com.example.demo.repository.ProfesseurRepository;
-import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.SpecialiteRepository;
 
 import jakarta.transaction.Transactional;
@@ -23,8 +21,7 @@ public class ProfesseurService {
     @Autowired
     private ProfesseurRepository professeurRepository;
     
-   @Autowired
-   private RoleRepository repository;
+   
 
     @Autowired
     private  SpecialiteRepository specialiteRepository;

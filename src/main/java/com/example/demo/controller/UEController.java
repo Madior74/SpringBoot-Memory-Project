@@ -102,7 +102,6 @@ public class UEController {
     // Assigner les autres propriétés
     ue.setNomUE((String) body.get("nomUE"));
     ue.setCodeUE((String) body.get("codeUE"));
-    ue.setNbreCredit((Integer) body.get("nbreCredit"));
 
     // Conversion de la dateAjout en LocalDateTime
     String dateAjoutStr = (String) body.get("dateAjout");
@@ -157,7 +156,6 @@ public ResponseEntity<?> updateUE(@PathVariable Long ueId, @RequestBody Map<Stri
     // Mettre à jour les propriétés de l'UE
     existingUE.setNomUE((String) body.get("nomUE"));
     existingUE.setCodeUE((String) body.get("codeUE"));
-    existingUE.setNbreCredit((Integer) body.get("nbreCredit"));
 
     // Récupérer les objets Niveau, Filière et Semestre si nécessaire
     if (body.get("semestre") != null) {
