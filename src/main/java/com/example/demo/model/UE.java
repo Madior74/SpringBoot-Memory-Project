@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,10 +20,12 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -41,18 +44,33 @@ public class UE {
     @JsonIgnore
     private Semestre semestre;
 
-    @OneToMany(mappedBy = "ue", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @OrderBy("dateAjout ASC")
+    @OneToMany(mappedBy = "ue", cascade = CascadeType.ALL)
+    @JsonManagedReference // Côté "maître" de la relation
     private List<CourseModule> modules = new ArrayList<>();
-
+    
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime dateAjout;
 
-    // Méthode pour calculer le nombre total de crédits
-    public int getNbreCredit() {
+
+    //Le nombre toatl de crédit de l'UE
+    public double getNbreCredit() {
         return modules.stream()
-                      .mapToInt(module -> module.getCreditModule() != null ? module.getCreditModule().intValue() : 0)
-                      .sum();
+                .filter(module -> module.getCreditModule() != null)
+                .mapToDouble(CourseModule::getCreditModule)
+                .sum();
+    }
+
+
+
+    // Le volume horaire total de l'UE
+    public double getVolumeHoraireTotal() {
+        return modules.stream()
+                .mapToInt(CourseModule::getVolumeHoraire)
+                .sum();
+    }
+    // Le nombre de modules de l'UE
+    public int getNbreModules() {
+        return modules.size();
     }
 
     // Méthodes pour ajouter/supprimer des modules

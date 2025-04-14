@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.dto.FiliereDTO;
+import com.example.demo.dto.NiveauDTO;
 import com.example.demo.model.Filiere;
 import com.example.demo.model.Niveau;
 import com.example.demo.model.Semestre;
@@ -12,6 +14,9 @@ import com.example.demo.service.FiliereService;
 import com.example.demo.service.NiveauService;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+
 
 @RestController
 @RequestMapping("/niveaux")
@@ -33,10 +38,6 @@ public class NiveauController {
         return niveauService.getNiveauById(id);
     }
 
-    // @PostMapping
-    // public Niveau createNiveau(@RequestBody Niveau niveau) {
-    //     return niveauService.saveNiveau(niveau);
-    // }
 
     @DeleteMapping("/{id}")
     public void deleteNiveau(@PathVariable Long id) {
@@ -50,11 +51,31 @@ public class NiveauController {
 
 
     //Niveaux pour chaque filiere
-
+   
     @GetMapping("/filiere/{filiereId}")
-    public List<Niveau> getNiveauxByFiliere(@PathVariable Long filiereId) {
-        return niveauService.getNiveauxByFiliere(filiereId);
+public ResponseEntity<List<NiveauDTO>> getNiveauxByFiliere(@PathVariable Long filiereId) {
+    List<Niveau> niveaux = niveauService.getNiveauxByFiliere(filiereId);
+    List<NiveauDTO> niveauxDTO = niveaux.stream()
+            .map(this::convertToDTO)
+            .collect(Collectors.toList());
+    return ResponseEntity.ok(niveauxDTO);
+}
+
+// Méthode pour convertir un objet Niveau en DTO
+private NiveauDTO convertToDTO(Niveau niveau) {
+    NiveauDTO dto = new NiveauDTO();
+    dto.setId(niveau.getId());
+    dto.setNomNiveau(niveau.getNomNiveau());
+
+    if (niveau.getFiliere() != null) {
+        dto.setFiliere(new FiliereDTO(
+                niveau.getFiliere().getId(),
+                niveau.getFiliere().getNomFiliere()
+        ));
     }
+
+    return dto;
+}
     
     
     @PostMapping("/filiere/{filiereId}")

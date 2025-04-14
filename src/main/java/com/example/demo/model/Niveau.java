@@ -52,4 +52,11 @@ public class Niveau {
 
     public List<Semestre> getSemestres() { return semestres; }
     public void setSemestres(List<Semestre> semestres) { this.semestres = semestres; }
+
+
+
+    @Override
+    public String toString() {
+        return nomNiveau; // Retourne le nom du niveau
+    }
 }

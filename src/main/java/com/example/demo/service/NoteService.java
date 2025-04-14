@@ -10,6 +10,7 @@ import com.example.demo.model.CourseModule;
 import com.example.demo.model.Devoir;
 import com.example.demo.model.Etudiant;
 import com.example.demo.model.Examen;
+import com.example.demo.model.Note;
 import com.example.demo.model.Devoir;
 import com.example.demo.repository.DevoirRepository;
 import com.example.demo.repository.ExamenRepository;
@@ -73,5 +74,18 @@ public class NoteService {
                 .orElse(0.0);
 
         return (averageDevoir * 0.3) + (averageExamen * 0.7);
+    }
+
+    //Verifier l'existence d'une note de devoir
+      public void addNote(Devoir devoir) {
+        if (devoirRepository.existsByEtudiantAndCourseModuleAndDateAttribution(devoir.getEtudiant(), devoir.getCourseModule(), devoir.getDateAttribution())) {
+            throw new RuntimeException("Cette note de devoir existe déjà pour cet étudiant, ce module et cette date.");
+        }
+        devoirRepository.save(devoir);
+    }
+
+    //Supprimer une note de devoir
+    public void deletDevoir(Long id){
+         devoirRepository.deleteById(id);
     }
 }

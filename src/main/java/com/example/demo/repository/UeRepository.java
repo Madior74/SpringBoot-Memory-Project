@@ -17,6 +17,7 @@ public interface UeRepository extends JpaRepository<UE, Long> {
     List<UE> findByNomUE(String nomUE);
     boolean existsByNomUEAndSemestre(String nomUE, Semestre semestre);
     boolean existsByNomUEAndSemestreId(String nomUE,Long semestreId);
+
     
     
 }

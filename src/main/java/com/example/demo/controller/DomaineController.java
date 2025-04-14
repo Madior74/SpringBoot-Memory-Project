@@ -34,7 +34,7 @@ public class DomaineController {
 
     //Ajouter un domaine
     @PostMapping("/save")
-    public Domaine nouveauDomaine(Domaine domaine){
+    public Domaine nouveauDomaine(@RequestBody Domaine domaine){
         return domaineService.createDomaine(domaine);
     }
 

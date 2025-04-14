@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.ModuleWithUeDTO;
 import com.example.demo.model.CourseModule;
 import com.example.demo.model.UE;
 import com.example.demo.repository.ModuleRepository;
@@ -55,25 +56,29 @@ public class ModuleService {
 
 
 
-    //Ajout
-    @Transactional
-    public void addModuleToUE(Long ueId, CourseModule module) {
-        Optional<UE> ueOptional = ueRepository.findById(ueId);
-        if (ueOptional.isPresent()) {
-            UE ue = ueOptional.get();
-            module.setUe(ue); // Associer le module à l'UE
-            module.setDateAjout(LocalDateTime.now());
-            moduleRepository.save(module); // Sauvegarder le module
-            ue.addModule(module); // Ajouter le module à l'UE
-            ueRepository.save(ue); // Sauvegarder l'UE
-        } else {
-            throw new RuntimeException("UE not found with id: " + ueId);
-        }
-    }
+    // //Ajout
+    // @Transactional
+    // public void addModuleToUE(Long ueId, CourseModule module) {
+    //     Optional<UE> ueOptional = ueRepository.findById(ueId);
+    //     if (ueOptional.isPresent()) {
+    //         UE ue = ueOptional.get();
+    //         module.setUe(ue); // Associer le module à l'UE
+    //         module.setDateAjout(LocalDateTime.now());
+    //         moduleRepository.save(module); // Sauvegarder le module
+    //         ue.addModule(module); // Ajouter le module à l'UE
+    //         ueRepository.save(ue); // Sauvegarder l'UE
+    //     } else {
+    //         throw new RuntimeException("UE not found with id: " + ueId);
+    //     }
+    // }
 
 
     public CourseModule saveModule(CourseModule module) {
         return moduleRepository.save(module);
+    }
+
+      public List<ModuleWithUeDTO> getAllModulesWithUe() {
+        return moduleRepository.findAllWithUeInfo();
     }
 
 

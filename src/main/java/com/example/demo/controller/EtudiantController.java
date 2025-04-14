@@ -1,3 +1,4 @@
+
 package com.example.demo.controller;
 
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ import com.example.demo.model.Etudiant;
 import com.example.demo.model.Filiere;
 import com.example.demo.model.Niveau;
 import com.example.demo.model.Region;
+import com.example.demo.model.Role;
 import com.example.demo.model.Session;
 import com.example.demo.service.EtudiantService;
 import com.example.demo.service.FiliereService;
@@ -69,96 +71,97 @@ public class EtudiantController {
 
     //Enregistre un nouveau Etudiant
    
-@PostMapping("/save")
-public ResponseEntity<?> ajouterEtudiant(@RequestBody Map<String, Object> payload) {
-    System.out.println("Données reçues : " + payload);
-    // Validate required fields
-    Map<String, String> errors = new HashMap<>();
+    @PostMapping("/save")
+    public ResponseEntity<?> ajouterEtudiant(@RequestBody Map<String, Object> payload) {
+        System.out.println("Données reçues : " + payload);
     
-    // Basic fields validation
-    if (!payload.containsKey("prenom")) errors.put("prenom", "Field is required");
-    if (!payload.containsKey("nom")) errors.put("nom", "Field is required");
-    if (!payload.containsKey("cni")) errors.put("cni", "Field is required");
-    if (!payload.containsKey("ine")) errors.put("ine", "Field is required");
-    if (!payload.containsKey("dateNaissance")) errors.put("dateNaissance", "Field is required");
+        // Validate required fields
+        Map<String, String> errors = new HashMap<>();
     
-    // Relationship validation
-    if (!payload.containsKey("region")) errors.put("region", "region is required");
-    if (!payload.containsKey("departement")) errors.put("departement", "Field is required");
-    if (!payload.containsKey("filiere")) errors.put("filiere", "Field is required");
-    if (!payload.containsKey("niveau")) errors.put("niveau", "Field is required");
-    if (!payload.containsKey("session")) errors.put("session", "Field is required");
+        // Basic fields validation
+        if (!payload.containsKey("prenom")) errors.put("prenom", "Field is required");
+        if (!payload.containsKey("nom")) errors.put("nom", "Field is required");
+        if (!payload.containsKey("cni")) errors.put("cni", "Field is required");
+        if (!payload.containsKey("ine")) errors.put("ine", "Field is required");
+        if (!payload.containsKey("dateNaissance")) errors.put("dateNaissance", "Field is required");
     
-    if (!errors.isEmpty()) {
-        return ResponseEntity.badRequest()
-            .body(Map.of(
-                "status", "error",
-                "message", "Validation failed",
-                "errors", errors
-            ));
+        // Relationship validation
+        if (!payload.containsKey("region")) errors.put("region", "Region is required");
+        if (!payload.containsKey("departement")) errors.put("departement", "Departement is required");
+        if (!payload.containsKey("filiere")) errors.put("filiere", "Filiere is required");
+        if (!payload.containsKey("niveau")) errors.put("niveau", "Niveau is required");
+        if (!payload.containsKey("session")) errors.put("session", "Session is required");
+    
+        if (!errors.isEmpty()) {
+            return ResponseEntity.badRequest()
+                .body(Map.of(
+                    "status", "error",
+                    "message", "Validation failed",
+                    "errors", errors
+                ));
+        }
+    
+        // Create and populate student
+        Etudiant etudiant = new Etudiant();
+        try {
+            // Set basic fields
+            etudiant.setPrenom((String) payload.get("prenom"));
+            etudiant.setNom((String) payload.get("nom"));
+            etudiant.setAdresse((String) payload.get("adresse"));
+            etudiant.setTelephone((String) payload.get("telephone"));
+            etudiant.setSexe((String) payload.get("sexe"));
+            etudiant.setEmail((String) payload.get("email"));
+            etudiant.setPassword((String) payload.get("password"));
+            etudiant.setImagePath((String) payload.get("imagePath"));
+            etudiant.setPaysDeNaissance((String) payload.get("paysDeNaissance"));
+            etudiant.setCni((String) payload.get("cni"));
+            etudiant.setIne((String) payload.get("ine"));
+    
+            // Handle date
+            String dateNaissanceStr = (String) payload.get("dateNaissance");
+            etudiant.setDateDeNaissance(LocalDate.parse(dateNaissanceStr.substring(0, 10)));
+    
+            // Set the role explicitly for an etudiant
+            etudiant.setRole(Role.ROLE_ETUDIANT); // Assign ROLE_ETUDIANT
+    
+            // Handle relationships
+            Map<String, Object> regionMap = (Map<String, Object>) payload.get("region");
+            Region region = new Region();
+            region.setId(((Number) regionMap.get("id")).longValue());
+            etudiant.setRegion(region);
+    
+            Map<String, Object> departementMap = (Map<String, Object>) payload.get("departement");
+            Departement departement = new Departement();
+            departement.setId(((Number) departementMap.get("id")).longValue());
+            etudiant.setDepartement(departement);
+    
+            Map<String, Object> filiereMap = (Map<String, Object>) payload.get("filiere");
+            Filiere filiere = new Filiere();
+            filiere.setId(((Number) filiereMap.get("id")).longValue());
+            etudiant.setFiliere(filiere);
+    
+            Map<String, Object> niveauMap = (Map<String, Object>) payload.get("niveau");
+            Niveau niveau = new Niveau();
+            niveau.setId(((Number) niveauMap.get("id")).longValue());
+            etudiant.setNiveau(niveau);
+    
+            Map<String, Object> sessionMap = (Map<String, Object>) payload.get("session");
+            Session session = new Session();
+            session.setId(((Number) sessionMap.get("id")).longValue());
+            etudiant.setSession(session);
+    
+            // Save the student
+            Etudiant nouvelEtudiant = etudiantService.ajouterEtudiant(etudiant);
+            return ResponseEntity.ok(nouvelEtudiant);
+    
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.badRequest()
+                .body(Map.of("status", "error", "message", "Invalid date format"));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                .body(Map.of("status", "error", "message", e.getMessage()));
+        }
     }
-
-    // Create and populate student
-    Etudiant etudiant = new Etudiant();
-    try {
-        // Set basic fields
-        etudiant.setPrenom((String) payload.get("prenom"));
-        etudiant.setNom((String) payload.get("nom"));
-        etudiant.setAdresse((String) payload.get("adresse"));
-        etudiant.setTelephone((String) payload.get("telephone"));
-        etudiant.setSexe((String) payload.get("sexe"));
-        etudiant.setEmail((String) payload.get("email"));
-        etudiant.setPassword((String) payload.get("password"));
-        etudiant.setImagePath((String) payload.get("imagePath"));
-        etudiant.setPaysDeNaissance((String) payload.get("paysDeNaissance"));
-        etudiant.setCni((String) payload.get("cni"));
-        etudiant.setIne((String) payload.get("ine"));
-        etudiant.setRole((String) payload.get("role"));
-
-        // Handle date
-        String dateNaissanceStr = (String) payload.get("dateNaissance");
-        etudiant.setDateDeNaissance(LocalDate.parse(dateNaissanceStr.substring(0, 10)));
-
-        // Gerer les relation
-        Map<String,Object> regionMap=(Map<String,Object>) payload.get("region");
-        Region  region=new Region();
-        region.setId(((Number) regionMap.get("id")).longValue());
-        etudiant.setRegion(region);
-
-
-
-        Map<String, Object> departementMap = (Map<String, Object>) payload.get("departement");
-        Departement departement = new Departement();
-        departement.setId(((Number) departementMap.get("id")).longValue());
-        etudiant.setDepartement(departement);
-
-        Map<String, Object> filiereMap = (Map<String, Object>) payload.get("filiere");
-        Filiere filiere = new Filiere();
-        filiere.setId(((Number) filiereMap.get("id")).longValue());
-        etudiant.setFiliere(filiere);
-
-        Map<String, Object> niveauMap = (Map<String, Object>) payload.get("niveau");
-        Niveau niveau = new Niveau();
-        niveau.setId(((Number) niveauMap.get("id")).longValue());
-        etudiant.setNiveau(niveau);
-
-        Map<String, Object> sessionMap = (Map<String, Object>) payload.get("session");
-        Session session = new Session();
-        session.setId(((Number) sessionMap.get("id")).longValue());
-        etudiant.setSession(session);
-
-        // Save the student
-        Etudiant nouvelEtudiant = etudiantService.ajouterEtudiant(etudiant);
-        return ResponseEntity.ok(nouvelEtudiant);
-
-    } catch (DateTimeParseException e) {
-        return ResponseEntity.badRequest()
-            .body(Map.of("status", "error", "message", "Invalid date format"));
-    } catch (Exception e) {
-        return ResponseEntity.internalServerError()
-            .body(Map.of("status", "error", "message", e.getMessage()));
-    }
-}
 
     @DeleteMapping("/{id}")
     public void deleteEtudiant(@PathVariable Long id){

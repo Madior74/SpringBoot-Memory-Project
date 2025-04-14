@@ -8,11 +8,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
 public class Semestre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,25 +30,13 @@ public class Semestre {
     @OneToMany(mappedBy = "semestre", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UE> ues = new ArrayList<>();
 
-    // Constructeurs
-    public Semestre() {}
+   
 
-    public Semestre(String nomSemestre, Niveau niveau) {
-        this.nomSemestre = nomSemestre;
-        this.niveau = niveau;
-        
+    public String getNomFiliere() {
+        if (this.niveau != null && this.niveau.getFiliere() != null) {
+            return this.niveau.getFiliere().getNomFiliere();
+        }
+        return null; // Ou une valeur par défaut si nécessaire
     }
 
-    // Getters et Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getNomSemestre() { return nomSemestre; }
-    public void setNomSemestre(String nomSemestre) { this.nomSemestre = nomSemestre; }
-
-    public Niveau getNiveau() { return niveau; }
-    public void setNiveau(Niveau niveau) { this.niveau = niveau; }
-
-    public List<UE> getUes() { return ues; }
-    public void setUes(List<UE> ues) { this.ues = ues; }
 }
