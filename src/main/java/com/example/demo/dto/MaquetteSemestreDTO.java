@@ -10,7 +10,7 @@ public class MaquetteSemestreDTO {
     private Niveau niveau; // Changé de String à Niveau
     private String filiere;
 
-gi    private double totalCredits;
+   private double totalCredits;
     private double totalVolumeHoraire;
     private int nombreModules;
 
