@@ -7,7 +7,7 @@ import com.example.demo.model.Niveau;
 @Data
 public class MaquetteSemestreDTO {
     private String nomSemestre;
-    private Niveau niveau; // Changé de String à Niveau
+    private Niveau niveau; 
     private String filiere;
 
    private double totalCredits;

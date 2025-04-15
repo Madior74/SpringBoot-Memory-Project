@@ -21,6 +21,6 @@ public class Etudiant extends Utilisateur {
     private Niveau niveau;
 
     @ManyToOne
-    @JoinColumn(name = "session_id", nullable = false)
-    private Session session;
+    @JoinColumn(name = "anneeAcademique_id", nullable = false)
+    private AnneeAcademique anneeAcademique;
 }

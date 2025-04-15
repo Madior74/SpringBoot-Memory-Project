@@ -15,7 +15,7 @@ public interface EtudiantRepository extends JpaRepository<Etudiant,Long>{
 
 
     //Recuperer tous les etudiants d'une session
-    List<Etudiant> findBySessionId(@Param("sessionId") Long sessionId);
+    List<Etudiant> findByanneeAcademiqueId(@Param("anneeAcademiqueId") Long anneeAcademiqueId);
 
  
      Optional<Etudiant> findByCni(String cni);
@@ -37,12 +37,6 @@ public interface EtudiantRepository extends JpaRepository<Etudiant,Long>{
     // Compter par ID de filière
     long countByFiliereId(Long filiereId);
 
-    // //Recuperer les eudiants par Niveau
-    // @Query("SELECT e FROM Etudiant e WHERE e.niveau.id=:niveauId")
-    // List<Etudiant> findByNiveauId(@Param("niveauId") Long niveauId);
-
-    // //Recupere un etudiant specifique
-    // // Optional<Etudiant> findByNomEtudiant(String nomEtudiant);
 
 
     

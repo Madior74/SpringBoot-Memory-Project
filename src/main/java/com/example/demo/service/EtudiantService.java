@@ -40,7 +40,7 @@ public class EtudiantService {
 
     //get etudiant by session
     public List<Etudiant> getEtudiantsBySession(Long sessionId){
-        return etudiantRepository.findBySessionId(sessionId);
+        return etudiantRepository.findByanneeAcademiqueId(sessionId);
     }
 
    
@@ -79,7 +79,7 @@ public class EtudiantService {
 
         // Mise à jour des relations
         existingEtudiant.setNiveau(etudiant.getNiveau());
-        existingEtudiant.setSession(etudiant.getSession());
+        existingEtudiant.setAnneeAcademique(etudiant.getAnneeAcademique());
         existingEtudiant.setFiliere(etudiant.getFiliere());
         existingEtudiant.setDepartement(etudiant.getDepartement());
 

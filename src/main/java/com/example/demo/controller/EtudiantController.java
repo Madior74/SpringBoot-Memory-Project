@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.model.AnneeAcademique;
 import com.example.demo.model.Departement;
 import com.example.demo.model.Etudiant;
 import com.example.demo.model.Filiere;
 import com.example.demo.model.Niveau;
 import com.example.demo.model.Region;
 import com.example.demo.model.Role;
-import com.example.demo.model.Session;
+import com.example.demo.service.AnneeAcademiqueService;
 import com.example.demo.service.EtudiantService;
 import com.example.demo.service.FiliereService;
 import com.example.demo.service.NiveauService;
-import com.example.demo.service.SessionService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +46,7 @@ public class EtudiantController {
     private EtudiantService etudiantService;
 
     @Autowired
-    private SessionService sessionService;
+    private AnneeAcademiqueService anneeAcademiqueSerice;
 
     @Autowired
     private FiliereService filiereService;
@@ -146,9 +146,9 @@ public class EtudiantController {
             etudiant.setNiveau(niveau);
     
             Map<String, Object> sessionMap = (Map<String, Object>) payload.get("session");
-            Session session = new Session();
+            AnneeAcademique session = new AnneeAcademique();
             session.setId(((Number) sessionMap.get("id")).longValue());
-            etudiant.setSession(session);
+            etudiant.setAnneeAcademique(session);
     
             // Save the student
             Etudiant nouvelEtudiant = etudiantService.ajouterEtudiant(etudiant);
@@ -257,14 +257,14 @@ public ResponseEntity<?> updateEtudiant(@PathVariable("id") Long etudiantId, @Re
         exisEtudiant.setNiveau(niveau);
     }
 
-    if (body.containsKey("session") && body.get("session") instanceof Map) {
-        Map<String, Object> sessionMap = (Map<String, Object>) body.get("session");
-        Long sessionId = ((Number) sessionMap.get("id")).longValue();
-        Optional<Session> sessionOptional = sessionService.getSession(sessionId);
+    if (body.containsKey("anneeAcademique") && body.get("anneeAcademique") instanceof Map) {
+        Map<String, Object> sessionMap = (Map<String, Object>) body.get("anneeAcademique");
+        Long anneeAcademiqueId = ((Number) sessionMap.get("id")).longValue();
+        Optional<AnneeAcademique> sessionOptional = anneeAcademiqueSerice.getAnneeAcademique(anneeAcademiqueId);
         if (!sessionOptional.isPresent()) {
-            return ResponseEntity.badRequest().body("Session non trouvée avec l'ID : " + sessionId);
+            return ResponseEntity.badRequest().body("Annee Academique non trouvée avec l'ID : " + anneeAcademiqueId);
         }
-        exisEtudiant.setSession(sessionOptional.get());
+        exisEtudiant.setAnneeAcademique(sessionOptional.get());
     }
 
     // Enregistrement des modifications

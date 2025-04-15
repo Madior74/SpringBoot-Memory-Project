@@ -16,12 +16,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor 
 @NoArgsConstructor 
 @Entity 
-@Table(name = "sessions") // Nom de la table dans la base de données
-public class Session {
+@Table(name = "anneeAcademique") // Nom de la table dans la base de données
+public class AnneeAcademique {
 
     @Id // Clé primaire
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String nomSession;
+    private String nomAnnee;
+
+    
+    
   
 }
