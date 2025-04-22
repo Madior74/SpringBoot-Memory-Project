@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.demo.model.Filiere;
 import com.example.demo.model.Niveau;
+import com.example.demo.repository.AnneeAcademiqueRepository;
 import com.example.demo.repository.FiliereRepository;
 
 import lombok.Data;
@@ -20,6 +20,9 @@ import lombok.Data;
 public class FiliereService {
     @Autowired
     private FiliereRepository filiereRepository;
+
+    @Autowired
+    private AnneeAcademiqueRepository anneeAcademiqueRepository;
 
     public List<Filiere> getAllFilieres() {
         return filiereRepository.findAll();
@@ -48,5 +51,8 @@ public class FiliereService {
         return filiereRepository.findById(id).orElse(null);
     }
 
+
+
+  
 }
         

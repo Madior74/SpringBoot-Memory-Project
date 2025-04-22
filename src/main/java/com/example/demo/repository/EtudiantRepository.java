@@ -4,39 +4,32 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.Etudiant;
-import com.example.demo.model.Filiere;
-import com.example.demo.model.Niveau;
+
 @Repository
 public interface EtudiantRepository extends JpaRepository<Etudiant,Long>{
 
 
-    //Recuperer tous les etudiants d'une session
-    List<Etudiant> findByanneeAcademiqueId(@Param("anneeAcademiqueId") Long anneeAcademiqueId);
+    // //Recuperer tous les etudiants d'une session
+    // List<Etudiant> findByanneeAcademiqueId(@Param("anneeAcademiqueId") Long anneeAcademiqueId);
 
  
      Optional<Etudiant> findByCni(String cni);
     Optional<Etudiant> findByIne(String ine);
-      List<Etudiant> findByFiliere(Filiere filiere);
-      List<Etudiant> findByNiveau(Niveau niveau);
+  
       Optional<Etudiant> findByEmail(String email);
 
 
       boolean existsByEmail(String email );
 
-   //Pour  tous les etudiants inscrit dans une Filiere
-   List<Etudiant> findByFiliereId(Long filiereId);
-
-   //Pour tous les etudiants inscrit dans un Niveau
-   List<Etudiant> findByNiveauId(Long NiveauId);
-
-  
-    // Compter par ID de filière
-    long countByFiliereId(Long filiereId);
-
+  // Méthode pour rechercher un étudiant par son CNI ou INE
+  Etudiant findByCniOrIne(String cni, String ine);
+//Recuperer les dossiers des  valides des Etudiants
+  @Query("SELECT e FROM Etudiant e WHERE e.dossierAdmission.statut = 'COMPLET'")
+List<Etudiant> findEtudiantsAvecDossierComplet();
 
 
     

@@ -1,42 +1,57 @@
 package com.example.demo.model;
 
-
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Departement {
+
+
+public class Inscription {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nomDepartement;
-
+    @ManyToOne(optional = false)
     @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "region_id", nullable = false)
-    private Region region;
+    private Etudiant etudiant;
 
-    
-    
-    
-    
+    @ManyToOne(optional = false)
+    private Filiere filiere;
+
+
+    @ManyToOne(optional = false)
+    private Niveau niveau;
+
+    @ManyToOne(optional = false)
+    private AnneeAcademique anneeAcademique;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateInscription;
+
+    private String montantVerse;
+
+
+
+
 }

@@ -1,30 +1,41 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
 
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-
-
-@Data 
-@AllArgsConstructor 
-@NoArgsConstructor 
-@Entity 
-@Table(name = "anneeAcademique") // Nom de la table dans la base de données
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AnneeAcademique {
 
-    @Id // Clé primaire
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
     private String nomAnnee;
 
-    
-    
-  
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateDebut;
+
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateFin;
+
+
+    public boolean isEnCours() {
+        LocalDate currentDate = LocalDate.now(); // Récupère la date actuelle
+        return !currentDate.isBefore(dateDebut) && !currentDate.isAfter(dateFin);
+    }
 }

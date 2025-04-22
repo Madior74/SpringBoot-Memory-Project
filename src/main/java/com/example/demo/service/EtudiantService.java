@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,70 +25,33 @@ public class EtudiantService {
 
 
 
-   
-    //Get Etudiant by Filiere
-    public List<Etudiant> getEtudiantsByFiliereId(Long filiereId){
-        return etudiantRepository.findByFiliereId(filiereId);
-    }
+
 
    
-    // //Get Etudiant by Niveau
-
-    public List<Etudiant> getEtudiantaByNiveauId(Long niveauId){
-        return etudiantRepository.findByNiveauId(niveauId);
-    }
-
-
-    //get etudiant by session
-    public List<Etudiant> getEtudiantsBySession(Long sessionId){
-        return etudiantRepository.findByanneeAcademiqueId(sessionId);
-    }
-
-   
-
-    //  //Rechercher un Etudiant
-    //   public Etudiant findById( Long etudiantId){
-    //     return etudiantRepository.findById(etudiantId).orElse(null);
-    //   }
-
-    //Mise a jour d'un etudiant
-    public Etudiant updateEtudiant(Etudiant etudiant) {
-        // Vérification si l'étudiant existe dans la base de données
-        Optional<Etudiant> existingEtudiantOptional = etudiantRepository.findById(etudiant.getId());
-        if (!existingEtudiantOptional.isPresent()) {
-            throw new RuntimeException("Étudiant non trouvé avec l'ID : " + etudiant.getId());
+ public Etudiant ajouterEtudiant(Etudiant etudiant) {
+        // Vérification que l'étudiant n'existe pas déjà (par CNI ou INE)
+        if (etudiantRepository.findByCniOrIne(etudiant.getCni(), etudiant.getIne()) != null) {
+            throw new RuntimeException("Un étudiant avec ce CNI ou INE existe déjà.");
         }
-
-        // Récupération de l'étudiant existant
-        Etudiant existingEtudiant = existingEtudiantOptional.get();
-
-        // Mise à jour des champs modifiables
-        existingEtudiant.setPrenom(etudiant.getPrenom());
-        existingEtudiant.setNom(etudiant.getNom());
-        existingEtudiant.setAdresse(etudiant.getAdresse());
-        existingEtudiant.setTelephone(etudiant.getTelephone());
-        existingEtudiant.setSexe(etudiant.getSexe());
-        existingEtudiant.setEmail(etudiant.getEmail());
-        existingEtudiant.setPassword(etudiant.getPassword());
-        existingEtudiant.setImagePath(etudiant.getImagePath());
-        existingEtudiant.setPaysDeNaissance(etudiant.getPaysDeNaissance());
-        existingEtudiant.setDateDeNaissance(etudiant.getDateDeNaissance());
-        existingEtudiant.setCni(etudiant.getCni());
-        existingEtudiant.setIne(etudiant.getIne());
-        existingEtudiant.setRole(etudiant.getRole());
-        existingEtudiant.setRegion(etudiant.getRegion());
-
-        // Mise à jour des relations
-        existingEtudiant.setNiveau(etudiant.getNiveau());
-        existingEtudiant.setAnneeAcademique(etudiant.getAnneeAcademique());
-        existingEtudiant.setFiliere(etudiant.getFiliere());
-        existingEtudiant.setDepartement(etudiant.getDepartement());
-
-        // Sauvegarde des modifications
-        return etudiantRepository.save(existingEtudiant);
+        // Définir la date d'ajout
+        etudiant.setDateAjout(LocalDateTime.now());
+        return etudiantRepository.save(etudiant);
     }
 
+    // Méthode pour récupérer tous les étudiants
+    public List<Etudiant> recupererTousLesEtudiants() {
+        return etudiantRepository.findAll();
+    }
 
+    // Méthode pour récupérer un étudiant par son ID
+    public Optional<Etudiant> recupererEtudiantParId(Long id) {
+        return etudiantRepository.findById(id);
+    }
+
+    // Méthode pour supprimer un étudiant par son ID
+    public void supprimerEtudiant(Long id) {
+        etudiantRepository.deleteById(id);
+    }
 
      /////
     public List<Etudiant> getAllEtudiants() {
@@ -97,11 +61,6 @@ public class EtudiantService {
     public Optional<Etudiant> getEtudiantById(Long id) {
         return etudiantRepository.findById(id);
     }
-
-    public Etudiant ajouterEtudiant(Etudiant etudiant) {
-        return etudiantRepository.save(etudiant);
-    }
-
 
     public void deleteEtudiant(Long id) {
         etudiantRepository.deleteById(id);
@@ -114,12 +73,15 @@ public class EtudiantService {
     }
 
 
-
-
-     // Méthode pour compter les étudiants par ID de filière
-     public long countEtudiantsByFiliereId(Long filiereId) {
-        return etudiantRepository.countByFiliereId(filiereId);
+    public List<Etudiant> getEtudiantsAvecDossierComplet() {
+        return etudiantRepository.findEtudiantsAvecDossierComplet();
     }
+    
+
+    //  // Méthode pour compter les étudiants par ID de filière
+    //  public long countEtudiantsByFiliereId(Long filiereId) {
+    //     return etudiantRepository.countByFiliereId(filiereId);
+    // }
 
    
 }

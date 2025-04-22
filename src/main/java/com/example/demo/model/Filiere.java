@@ -1,15 +1,24 @@
 package com.example.demo.model;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
 
+@Table(name = "filieres")
+@Data
 @Entity
 public class Filiere {
     @Id
@@ -22,30 +31,9 @@ public class Filiere {
     private List<Niveau> niveaux = new ArrayList<>();
 
 
-    
-    // Constructeurs
-    public Filiere() {}
-
-    public Filiere(String nomFiliere) {
-        this.nomFiliere = nomFiliere;
-    }
-
-
-
-
-    // Getters et Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getNomFiliere() { return nomFiliere; }
-    public void setNomFiliere(String nomFiliere) { this.nomFiliere = nomFiliere; }
-
-    public List<Niveau> getNiveaux() { return niveaux; }
-    public void setNiveaux(List<Niveau> niveaux) { this.niveaux = niveaux; }
-
-    @Override
-    public String toString() {
-        return "Filiere{id=" + id + ", nomFiliere='" + nomFiliere + "'}";
-    }
+   
+  
+    // L'annotation mappedBy = "filieres" indique que Filiere est le côté inverse de la relation, 
+    // et que la configuration principale est définie dans l'autre.
 
 }

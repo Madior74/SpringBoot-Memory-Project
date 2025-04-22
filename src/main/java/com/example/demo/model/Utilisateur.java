@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.example.demo.enums.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -17,8 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+
 import lombok.Data;
 
 
@@ -38,6 +38,7 @@ public abstract class Utilisateur {
      @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateDeNaissance;
+
 
 
     private String imagePath;

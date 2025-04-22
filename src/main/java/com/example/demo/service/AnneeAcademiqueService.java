@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.AnneeAcademique;
 import com.example.demo.repository.AnneeAcademiqueRepository;
@@ -15,26 +16,25 @@ import lombok.Data;
 @Service
 public class AnneeAcademiqueService {
     @Autowired
-    private AnneeAcademiqueRepository academiqueRepository;
+    private AnneeAcademiqueRepository anneeAcademiqueRepository;
 
     public Optional <AnneeAcademique> getAnneeAcademique(final Long id){
-        return academiqueRepository.findById(id);
+        return anneeAcademiqueRepository.findById(id);
         
     }
     //Get All
     public List <AnneeAcademique> getAllAnneeAcademique(){
-        return academiqueRepository.findAll();
+        return anneeAcademiqueRepository.findAll();
     }
     //Create and Update
-
     public AnneeAcademique creategetAnneeAcademique(AnneeAcademique anneeAcademique) {
-        return academiqueRepository.save(anneeAcademique);
+        return anneeAcademiqueRepository.save(anneeAcademique);
     }
     //delete
 
     public void deletegetAnneeAcademique(final Long id){
-        academiqueRepository.deleteById(id);
-
+        anneeAcademiqueRepository.deleteById(id);
     }
 
+  
 }
