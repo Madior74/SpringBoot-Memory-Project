@@ -3,14 +3,15 @@ package com.example.demo.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.demo.etudiant.Etudiant;
+import com.example.demo.etudiant.EtudiantRepository;
 import com.example.demo.model.Admin;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.Etudiant;
-import com.example.demo.model.Professeur;
+import com.example.demo.professeur.Professeur;
+import com.example.demo.professeur.ProfesseurRepository;
 import com.example.demo.repository.AdminRepository;
-import com.example.demo.repository.EtudiantRepository;
-import com.example.demo.repository.ProfesseurRepository;
 @Service
 public class AuthService {
 

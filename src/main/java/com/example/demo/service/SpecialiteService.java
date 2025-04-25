@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.Niveau;
 import com.example.demo.model.Specialite;
+import com.example.demo.niveau.Niveau;
 import com.example.demo.repository.DomaineRepository;
 import com.example.demo.repository.SpecialiteRepository;
 

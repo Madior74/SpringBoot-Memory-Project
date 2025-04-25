@@ -6,11 +6,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.demo.coursModule.CourseModule;
 import com.example.demo.dto.MaquetteSemestreDTO;
-import com.example.demo.model.CourseModule;
-import com.example.demo.model.Semestre;
-import com.example.demo.model.UE;
-import com.example.demo.repository.SemestreRepository;
+import com.example.demo.semestre.Semestre;
+import com.example.demo.semestre.SemestreRepository;
+import com.example.demo.ue.UE;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

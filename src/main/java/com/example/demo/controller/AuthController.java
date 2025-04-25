@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.etudiant.Etudiant;
 import com.example.demo.model.Admin;
-import com.example.demo.model.Etudiant;
 import com.example.demo.model.LoginRequest;
 import com.example.demo.model.LoginResponse;
-import com.example.demo.model.Professeur;
+import com.example.demo.professeur.Professeur;
 import com.example.demo.service.AuthService;
 
 import jakarta.servlet.http.HttpSession;

@@ -5,7 +5,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.example.demo.enums.Role;
+import com.example.demo.region.Region;
+import com.example.demo.region.departement.Departement;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
@@ -59,10 +62,12 @@ public abstract class Utilisateur {
     private Role role;
 
     @ManyToOne
+    @JsonIgnoreProperties
     @JoinColumn(name = "region_id", nullable = false)
     private Region region;
 
     @ManyToOne
+    @JsonIgnoreProperties
     @JoinColumn(name = "departement_id", nullable = false)
     private Departement departement;
 

@@ -8,10 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.filiere.Filiere;
 import com.example.demo.model.Domaine;
-import com.example.demo.model.Filiere;
-import com.example.demo.model.Niveau;
 import com.example.demo.model.Specialite;
+import com.example.demo.niveau.Niveau;
 import com.example.demo.service.DomaineService;
 import com.example.demo.service.SpecialiteService;
 import org.springframework.web.bind.annotation.PostMapping;

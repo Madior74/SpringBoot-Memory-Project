@@ -3,7 +3,7 @@ package com.example.demo.dto;
 import lombok.Data;
 import java.util.List;
 
-import com.example.demo.model.Niveau;
+import com.example.demo.niveau.Niveau;
 @Data
 public class MaquetteSemestreDTO {
     private String nomSemestre;
