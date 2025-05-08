@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.anneeAcademique;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.model.AnneeAcademique;
 import com.example.demo.service.AnneeAcademiqueService;
 
 import java.util.List;

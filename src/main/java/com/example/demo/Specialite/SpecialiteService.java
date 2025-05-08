@@ -1,14 +1,10 @@
-package com.example.demo.service;
+package com.example.demo.Specialite;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.Specialite;
-import com.example.demo.niveau.Niveau;
-import com.example.demo.repository.DomaineRepository;
-import com.example.demo.repository.SpecialiteRepository;
 
 import lombok.Data;
 
@@ -19,9 +15,6 @@ public class SpecialiteService {
 
     @Autowired
     private SpecialiteRepository specialiteRepository;
-
-    @Autowired
-    private DomaineRepository domaineRepository;
 
     //Ajouter une Specialite
     public Specialite ajouterSpecialite(Specialite speci){
@@ -46,11 +39,6 @@ public class SpecialiteService {
     }
 
 
-    //recuperer les specialites par domaine
-     public List<Specialite> getSpecialiteByDomaine(Long domaineId) {
-        return specialiteRepository.findByDomaineId(domaineId);
-    }
-
 
 
 
@@ -63,9 +51,6 @@ public class SpecialiteService {
 
 
 
-    //Existence 
-    public boolean existsBySpecialiteAndDomaine(String nomSpecialite,Long domaineId){
-        return specialiteRepository.existsByNomSpecialiteAndDomaineId(nomSpecialite,domaineId);
-    }
+  
     
 }

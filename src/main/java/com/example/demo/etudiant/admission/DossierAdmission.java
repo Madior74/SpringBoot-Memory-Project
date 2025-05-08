@@ -1,8 +1,7 @@
 package com.example.demo.etudiant.admission;
 
 
-import com.example.demo.etudiant.Etudiant;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.example.demo.etudiant.prinscription.Etudiant;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;

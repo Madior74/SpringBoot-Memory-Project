@@ -4,7 +4,7 @@ package com.example.demo.note;
 import java.sql.Date;
 
 import com.example.demo.coursModule.CourseModule;
-import com.example.demo.etudiant.Etudiant;
+import com.example.demo.etudiant.prinscription.Etudiant;
 import com.example.demo.professeur.Professeur;
 
 

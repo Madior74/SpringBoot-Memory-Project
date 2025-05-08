@@ -3,8 +3,7 @@ package com.example.demo.region.departement;
 
 
 import com.example.demo.region.Region;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -20,10 +19,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Setter
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Departement {
 
     @Id
@@ -39,6 +38,8 @@ public class Departement {
 
     
     
-    
-    
+    public Departement(String nomDepartement, Region region) {
+        this.nomDepartement = nomDepartement;
+        this.region = region;
+    }
 }

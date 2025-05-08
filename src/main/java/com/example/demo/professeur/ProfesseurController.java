@@ -1,64 +1,93 @@
 package com.example.demo.professeur;
 
+
+import com.example.demo.Specialite.Specialite;
+import com.example.demo.enums.Role;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import static com.example.demo.enums.Role.ROLE_PROFESSEUR;
 
 
 @RestController
 @RequestMapping("/professeurs")
 public class ProfesseurController {
-    @Autowired
-    private  ProfesseurService professeurService;
 
-    //Recuperer tous les profs
+    @Autowired
+    private ProfesseurService professeurService;
+
+    // Lister tous les professeurs
     @GetMapping
-    public List<Professeur> getAllProfesseurs(){
+    public List<ProfesseurDTO> getAllProfesseurs() {
         return professeurService.getAllProfesseurs();
     }
-    
+
+    // Obtenir un professeur par ID
     @GetMapping("/{id}")
-    public ResponseEntity<Professeur> getProfesseurById(@PathVariable Long id){
-        Professeur professeur=professeurService.getProfesseurById(id);
-        return professeur !=null? ResponseEntity.ok().body(professeur):ResponseEntity.notFound().build();
+    public ProfesseurDTO getProfesseurById(@PathVariable Long id) {
+        return professeurService.getProfesseurById(id);
     }
 
+    // Créer un nouveau professeur
+    @PostMapping("/save")
+    public ProfesseurDTO createProfesseur(@RequestBody Professeur professeur) {
 
-
-@PostMapping("/save")
-public Professeur createProfesseur(@RequestBody Professeur professeur, 
-                                 @RequestParam(required = false) List<Long> modulesIds) {
-    return professeurService.createProfesseur(professeur, modulesIds);
-}
-
-
-
-
-    //Mette à jour un prof
-    @PostMapping("/{id}")
-    public ResponseEntity<Professeur> updateProfesseur(@PathVariable Long id,@RequestBody Professeur professeurDetails,@RequestParam(required = false) List<Long> modulesIds){
-        Professeur professeur=professeurService.updateProfesseur(id, professeurDetails, modulesIds);
-        return professeur !=null? ResponseEntity.ok().body(professeur):ResponseEntity.notFound().build();
+        professeur.setRole(ROLE_PROFESSEUR);
+        return professeurService.createProfesseur(professeur);
     }
-   
-    
-    
-    //Supprimer un prof
+
+    // Mettre à jour un professeur
+    @PutMapping("/{id}")
+    public ProfesseurDTO updateProfesseur(
+            @PathVariable Long id,
+            @RequestBody Professeur professeurDetails) {
+        return professeurService.updateProfesseur(id, professeurDetails);
+    }
+
+    // Supprimer un professeur
     @DeleteMapping("/{id}")
-    public ResponseEntity<Professeur> deleteProfesseur(@PathVariable Long id){
+    public void deleteProfesseur(@PathVariable Long id) {
         professeurService.deleteProfesseur(id);
-        return ResponseEntity.noContent().build();
     }
+
+    // Specialité d'un professeur
+    @GetMapping("/{id}/specialites")
+    public List<Specialite> getSpecialitesByProfesseurId(@PathVariable Long id) {
+        return professeurService.getSpecialitesByProfesseurId(id);
+    }
+
+
+
+    // Ajouter une spécialité à un professeur
+    @PostMapping("/{id}/specialites")
+    public void addSpecialitesToProfesseur(
+            @PathVariable Long id,
+            @RequestBody List<Long> specialiteIds
+    ) 
+    {
+        professeurService.addSpecialitesToProfesseur(id, specialiteIds);
+    }
+
+
     
+    // Supprimer une spécialité d'un professeur
+    @DeleteMapping("/{id}/specialites/{specialiteId}")
+    public void removeSpecialiteFromProfesseur(@PathVariable Long id, @PathVariable Long specialiteId) {
+        professeurService.removeSpecialiteFromProfesseur(id, specialiteId);
+    }
+    // Obtenir le nombre de professeurs
+    @GetMapping("/count")
+    public long countProfesseurs() {
+        return professeurService.countProfesseurs();
+    }
 }

@@ -2,7 +2,7 @@ package com.example.demo.etudiant.document;
 
 import java.time.LocalDateTime;
 
-import com.example.demo.etudiant.Etudiant;
+import com.example.demo.etudiant.prinscription.Etudiant;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
@@ -19,33 +19,25 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nom; 
-    private String type;
-    
-    private String cheminFichier; 
+    private String nom; // Diplôme, Relevé de Notes, Certification, etc.
+    private String type; // PDF, Image, etc.
 
-    private LocalDateTime dateDepot;
+    private String cheminFichier; // Chemin du fichier stocké
 
+    private LocalDateTime dateDepot; // Date de dépôt du document
 
     @JsonIgnoreProperties
     @ManyToOne
     @JoinColumn(name = "etudiant_id")
     private Etudiant etudiant;
 
-    public Document() {
-    }
-
-    public Document(String nom, String type, String cheminFichier, LocalDateTime dateDepot, Etudiant etudiant) {
-        this.nom = nom;
-        this.type = type;
-        this.cheminFichier = cheminFichier;
-        this.dateDepot = dateDepot;
-        this.etudiant = etudiant;
-    }
-
-    // Getters et setters
+    // Getters et Setters
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNom() {

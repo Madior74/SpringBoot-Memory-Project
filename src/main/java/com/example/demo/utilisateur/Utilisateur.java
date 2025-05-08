@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.utilisateur;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -9,6 +9,7 @@ import com.example.demo.region.Region;
 import com.example.demo.region.departement.Departement;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
@@ -55,6 +56,7 @@ public abstract class Utilisateur {
     private String telephone;
     private String sexe;
     private String email;
+ @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Enumerated(EnumType.STRING)

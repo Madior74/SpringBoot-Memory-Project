@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.etudiant.Etudiant;
-import com.example.demo.etudiant.EtudiantRepository;
+import com.example.demo.etudiant.prinscription.Etudiant;
+import com.example.demo.etudiant.prinscription.EtudiantRepository;
 
 @Service
 public class DossierAdmissionService {
@@ -43,8 +43,25 @@ public class DossierAdmissionService {
     }
     
 
+//Update
+public DossierAdmission updateDossier(Long id, DossierAdmission dossierDetails) {
+    DossierAdmission dossier = dossierAdmissionRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Dossier non trouvé"));
 
+    dossier.setCopieCni(dossierDetails.isCopieCni());
+    dossier.setReleveNotes(dossierDetails.isReleveNotes());
+    dossier.setDiplome(dossierDetails.isDiplome());
+    dossier.setStatut(dossierDetails.getStatut());
+    dossier.setRemarque(dossierDetails.getRemarque());
 
+    if (dossierDetails.getEtudiant() != null) {
+        Etudiant etudiant = etudiantRepository.findById(dossierDetails.getEtudiant().getId())
+                .orElseThrow(() -> new RuntimeException("Étudiant non trouvé"));
+        dossier.setEtudiant(etudiant);
+    }
+
+    return dossierAdmissionRepository.save(dossier);
+}
 
     //Supprimer un Dossier
     public void deleteDossierAdmission(Long id){

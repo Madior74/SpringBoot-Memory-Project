@@ -35,7 +35,9 @@ public class Region {
     @OneToMany(mappedBy = "region" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Departement> departements = new ArrayList<>();
 
-    
+    public Region(String nomRegion) {
+        this.nomRegion = nomRegion;
+    }
     
     
 }

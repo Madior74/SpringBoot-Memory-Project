@@ -1,12 +1,10 @@
-package com.example.demo.repository;
+package com.example.demo.anneeAcademique;
 
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.stereotype.Repository;
-
-import com.example.demo.model.AnneeAcademique;
 
 
 @Repository

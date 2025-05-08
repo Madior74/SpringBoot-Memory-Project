@@ -1,4 +1,4 @@
-package com.example.demo.etudiant;
+package com.example.demo.etudiant.prinscription;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +29,10 @@ public interface EtudiantRepository extends JpaRepository<Etudiant,Long>{
   @Query("SELECT e FROM Etudiant e WHERE e.dossierAdmission.statut = 'COMPLET'")
 List<Etudiant> findEtudiantsAvecDossierComplet();
 
+
+///Etudiant disposant de 3 documents
+@Query("SELECT e FROM Etudiant e WHERE SIZE(e.documents) = 3")
+    List<Etudiant> findEtudiantsWithThreeDocuments();
 
     
 }

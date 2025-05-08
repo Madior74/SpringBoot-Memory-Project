@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.AnneeAcademique;
-import com.example.demo.repository.AnneeAcademiqueRepository;
+import com.example.demo.anneeAcademique.AnneeAcademique;
+import com.example.demo.anneeAcademique.AnneeAcademiqueRepository;
 
 import lombok.Data;
 

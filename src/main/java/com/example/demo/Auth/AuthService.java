@@ -1,21 +1,28 @@
-package com.example.demo.service;
+package com.example.demo.Auth;
+
+
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.demo.etudiant.Etudiant;
-import com.example.demo.etudiant.EtudiantRepository;
-import com.example.demo.model.Admin;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.admin.Admin;
+import com.example.demo.admin.AdminRepository;
+import com.example.demo.etudiant.prinscription.Etudiant;
+import com.example.demo.etudiant.prinscription.EtudiantRepository;
 import com.example.demo.professeur.Professeur;
 import com.example.demo.professeur.ProfesseurRepository;
-import com.example.demo.repository.AdminRepository;
+
 @Service
 public class AuthService {
 
-    @Autowired
+   
+    
+ @Autowired
     private EtudiantRepository etudiantRepository;
 
     @Autowired
@@ -24,38 +31,50 @@ public class AuthService {
     @Autowired
     private AdminRepository adminRepository;
 
+    @Autowired
+    private  PasswordEncoder passwordEncoder;
+
+
     public Object authenticate(String email, String password) {
-        // Vérifie si c'est un étudiant
         Optional<Etudiant> etudiantOptional = etudiantRepository.findByEmail(email);
         if (etudiantOptional.isPresent()) {
             Etudiant etudiant = etudiantOptional.get();
-            if (!etudiant.getPassword().equals(password)) {
+            if (!passwordEncoder.matches(password, etudiant.getPassword())) { // ⬅️ Vérification sécurisée
                 throw new RuntimeException("Mot de passe incorrect");
             }
             return etudiant;
         }
 
-        // Vérifie si c'est un professeur
         Optional<Professeur> professeurOptional = professeurRepository.findByEmail(email);
         if (professeurOptional.isPresent()) {
             Professeur professeur = professeurOptional.get();
-            if (!professeur.getPassword().equals(password)) {
+            if (!passwordEncoder.matches(password, professeur.getPassword())) {
                 throw new RuntimeException("Mot de passe incorrect");
             }
             return professeur;
         }
 
-        // Vérifie si c'est un administrateur
-        Optional<Admin> adminOptional = adminRepository.findByEmail(email); 
+        Optional<Admin> adminOptional = adminRepository.findByEmail(email);
         if (adminOptional.isPresent()) {
             Admin admin = adminOptional.get();
-            if (!admin.getPassword().equals(password)) {
+            if (!passwordEncoder.matches(password, admin.getPassword())) {
                 throw new RuntimeException("Mot de passe incorrect");
             }
             return admin;
         }
 
-        // Si aucun utilisateur n'est trouvé
         throw new RuntimeException("Utilisateur non trouvé");
     }
+
+//     public Utilisateur authenticate(String email, String password) {
+//     Utilisateur utilisateur = utilisateurRepository.findByEmail(email)
+//         .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+//     if (!utilisateur.getPassword().equals(password)) {
+//         throw new RuntimeException("Mot de passe incorrect");
+//     }
+
+//     return utilisateur;
+// }
+
 }

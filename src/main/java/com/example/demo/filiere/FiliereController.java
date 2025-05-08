@@ -1,9 +1,11 @@
 package com.example.demo.filiere;
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,5 +50,22 @@ public void deleteFiliere(@PathVariable("id") Long id) {
     filiereService.deleteFiliere(id);
 }
 
+
+//Auto
+@PostMapping("/auto")
+public Filiere createFiliereAvecStructure(@RequestBody Map<String, String> payload) {
+    String nomFiliere = payload.get("nomFiliere");
+    return filiereService.createFiliereAvecStructure(nomFiliere);
+}
+
+//nombre d'etudiant
+
+    @GetMapping("/{id}/etudiants/count")
+    public ResponseEntity<Map<String, Integer>> getEtudiantsCount(@PathVariable Long id) {
+        int count = filiereService.getEtudiantsCountByFiliereId(id);
+        Map<String, Integer> response = new HashMap<>();
+        response.put("count", count);
+        return ResponseEntity.ok(response);
+    }
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -35,9 +36,6 @@ public class InscriptionController {
 
     //Creer un nouveau Etudint
     @PostMapping("/save")
-//    public Inscription nouvelleInscription(@RequestBody Inscription inscriptionDetail){
-//            return inscriptionService.createInscription(inscriptionDetail);
-//    }
     public ResponseEntity<?> inscrireEtudiant(@RequestBody Inscription inscription) {
         try {
             Inscription saved = inscriptionService.ajouterInscription(inscription);
@@ -46,6 +44,7 @@ public class InscriptionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
         }
     }
+   
 
 
 
@@ -56,4 +55,14 @@ public class InscriptionController {
     public void deleteInscription(@PathVariable Long id){
         inscriptionRepository.deleteById(id);
     }
+
+    //Methode Existe ou NOn
+     @GetMapping("/check")
+    public boolean checkIfInscriptionExists(
+            @RequestParam Long etudiantId,
+            @RequestParam Long filiereId,
+            @RequestParam Long anneeAcademiqueId) {
+        return inscriptionService.checkIfInscriptionExists(etudiantId, filiereId, anneeAcademiqueId);
+    }
+    
 }

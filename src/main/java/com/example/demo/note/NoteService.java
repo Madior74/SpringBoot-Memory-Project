@@ -1,14 +1,13 @@
 package com.example.demo.note;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.coursModule.CourseModule;
 import com.example.demo.coursModule.ModuleService;
-import com.example.demo.etudiant.Etudiant;
+import com.example.demo.etudiant.prinscription.Etudiant;
 import com.example.demo.note.devoir.Devoir;
 import com.example.demo.note.devoir.DevoirRepository;
 @Service

@@ -1,14 +1,9 @@
-package com.example.demo.model;
+package com.example.demo.Specialite;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,19 +14,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Domaine {
+public class Specialite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nomDomaine;
-
-    @OneToMany(mappedBy = "domaine", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Specialite> specialites = new ArrayList<>();
-
-
-    
-    
-
-
+    private String nom;
+    private String description;
 }

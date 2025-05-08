@@ -2,21 +2,20 @@ package com.example.demo.etudiant.inscription;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.InscriptionRequestDTO;
-import com.example.demo.etudiant.Etudiant;
-import com.example.demo.etudiant.EtudiantRepository;
-import com.example.demo.etudiant.admission.DossierAdmission;
+import com.example.demo.anneeAcademique.AnneeAcademique;
+import com.example.demo.anneeAcademique.AnneeAcademiqueRepository;
+import com.example.demo.etudiant.prinscription.Etudiant;
+import com.example.demo.etudiant.prinscription.EtudiantRepository;
 import com.example.demo.etudiant.admission.DossierAdmissionRepository;
 import com.example.demo.filiere.Filiere;
 import com.example.demo.filiere.FiliereRepository;
-import com.example.demo.model.AnneeAcademique;
 import com.example.demo.niveau.Niveau;
 import com.example.demo.niveau.NiveauRepository;
-import com.example.demo.repository.AnneeAcademiqueRepository;
 
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -58,9 +57,15 @@ public class InscriptionService {
 
         return inscriptionRepository.save(inscription);
     }
-    //methode Simple
+   
 
-    public Inscription createInscription(Inscription insription){
-        return  inscriptionRepository.save(insription);
+
+    //Existence de l'inscription
+    public boolean checkIfInscriptionExists(Long etudiantId, Long filiereId, Long anneeAcademiqueId) {
+        return inscriptionRepository.existsByEtudiantIdAndFiliereIdAndAnneeAcademiqueId(etudiantId, filiereId, anneeAcademiqueId);
     }
+
+
+
+
 }

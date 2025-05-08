@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.etudiant.Etudiant;
+import com.example.demo.etudiant.prinscription.Etudiant;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -3,22 +3,19 @@ package com.example.demo.etudiant.inscription;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.example.demo.etudiant.Etudiant;
+import com.example.demo.anneeAcademique.AnneeAcademique;
+import com.example.demo.etudiant.prinscription.Etudiant;
 import com.example.demo.filiere.Filiere;
-import com.example.demo.model.AnneeAcademique;
 import com.example.demo.niveau.Niveau;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,7 +51,9 @@ public class Inscription {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateInscription;
 
-    private String montantVerse;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal montantVerse;
+
 
 
 
