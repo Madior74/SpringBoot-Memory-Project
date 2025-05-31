@@ -11,8 +11,9 @@ import com.example.demo.etudiant.prinscription.Etudiant;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
+import java.util.Optional;
 import java.io.IOException;
+import java.lang.StackWalker.Option;
 import java.nio.file.Files;
 
 @RestController
@@ -30,6 +31,8 @@ public class DocumentController {
     public ResponseEntity<Document> uploadDocument(@RequestParam("file") MultipartFile file,
                                                    @RequestParam("nom") String nom,
                                                    @RequestParam("etudiantId") Long etudiantId) {
+                                                
+       
         try {
             // Récupérer l'étudiant (vous devez avoir une méthode pour cela)
             Etudiant etudiant = new Etudiant(); // Remplacez ceci par la récupération réelle de l'étudiant
@@ -64,5 +67,11 @@ public class DocumentController {
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+
+    @DeleteMapping("/{id}")
+    public void deleteDocument(@PathVariable("id") Long id) {
+        documentService.deleteDocument(id);
     }
 }

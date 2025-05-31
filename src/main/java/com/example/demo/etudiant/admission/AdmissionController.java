@@ -16,13 +16,13 @@ import jakarta.transaction.Transactional;
 
 @RestController
 @RequestMapping("/dossiers")
-public class DossierAdmissionController {
+public class AdmissionController {
 
     @Autowired
     private DossierAdmissionService dossierAdmissionService;
 
     @Autowired
-    private DossierAdmissionRepository dossierAdmissionRepository;
+    private AdmissionRepository admissionRepository;
 
     @Autowired
     private InscriptionRepository inscriptionRepository;
@@ -35,8 +35,8 @@ public class DossierAdmissionController {
     // }
 
     @GetMapping()
-public List<DossierAdmission> getDossiersNonInscrits() {
-    return dossierAdmissionRepository.findAll().stream()
+public List<Admission> getDossiersNonInscrits() {
+    return admissionRepository.findAll().stream()
         .filter(dossier -> {
             Etudiant etudiant = dossier.getEtudiant();
             return etudiant != null &&
@@ -48,7 +48,7 @@ public List<DossierAdmission> getDossiersNonInscrits() {
 
     //Dossier par Id
     @GetMapping("/{id}")
-    public DossierAdmission getDossierAdmissionById(@PathVariable Long id){
+    public Admission getDossierAdmissionById(@PathVariable Long id){
         return dossierAdmissionService.getDossierAdmissionById(id);
     }
     
@@ -56,7 +56,7 @@ public List<DossierAdmission> getDossiersNonInscrits() {
 
     //Creer un nouveau dossier
     @PostMapping("/save")
-    public DossierAdmission createDossierAdmission(@RequestBody DossierAdmission dossierAdmission) {
+    public Admission createDossierAdmission(@RequestBody Admission dossierAdmission) {
         Long etudiantId = dossierAdmission.getEtudiant().getId();
         return dossierAdmissionService.createDossier(dossierAdmission, etudiantId);
     }
@@ -65,9 +65,9 @@ public List<DossierAdmission> getDossiersNonInscrits() {
 
 //Update
 @PutMapping("/update/{id}")
-public ResponseEntity<DossierAdmission> updateDossier(@PathVariable Long id,
-                                                      @RequestBody DossierAdmission dossierDetails) {
-    DossierAdmission updated = dossierAdmissionService.updateDossier(id, dossierDetails);
+public ResponseEntity<Admission> updateDossier(@PathVariable Long id,
+                                               @RequestBody Admission dossierDetails) {
+    Admission updated = dossierAdmissionService.updateDossier(id, dossierDetails);
     return ResponseEntity.ok(updated);
 }
 
@@ -85,19 +85,19 @@ public ResponseEntity<DossierAdmission> updateDossier(@PathVariable Long id,
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<String> deleteDossier(@PathVariable Long id){
-        Optional<DossierAdmission> dossierOptional = dossierAdmissionRepository.findById(id);
+        Optional<Admission> dossierOptional = admissionRepository.findById(id);
     
         if (!dossierOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Dossier non trouvé");
         }
     
-        DossierAdmission dossier = dossierOptional.get();
+        Admission dossier = dossierOptional.get();
     
         if (dossier.getEtudiant() != null) {
             dossier.getEtudiant().setDossierAdmission(null);
         }
     
-        dossierAdmissionRepository.delete(dossier);
+        admissionRepository.delete(dossier);
     
         return ResponseEntity.ok("Dossier supprimé");
     }

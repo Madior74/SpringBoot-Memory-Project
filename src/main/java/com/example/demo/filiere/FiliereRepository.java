@@ -1,5 +1,6 @@
 package com.example.demo.filiere;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +12,8 @@ public interface FiliereRepository extends JpaRepository<Filiere,Long>{
 
     Optional<Filiere> findByNomFiliere(String nomFiliere);
 
- 
+    
+    Optional<Filiere> findByNomFiliereIgnoreCase(String nomFiliere);
 
 
 }

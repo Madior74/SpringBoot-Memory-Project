@@ -6,7 +6,7 @@ import com.example.demo.anneeAcademique.AnneeAcademique;
 import com.example.demo.anneeAcademique.AnneeAcademiqueRepository;
 import com.example.demo.etudiant.prinscription.Etudiant;
 import com.example.demo.etudiant.prinscription.EtudiantRepository;
-import com.example.demo.etudiant.admission.DossierAdmissionRepository;
+import com.example.demo.etudiant.admission.AdmissionRepository;
 import com.example.demo.filiere.Filiere;
 import com.example.demo.filiere.FiliereRepository;
 import com.example.demo.niveau.Niveau;
@@ -25,7 +25,7 @@ public class InscriptionService {
     private final FiliereRepository filiereRepository;
     private final NiveauRepository niveauRepository;
     private final AnneeAcademiqueRepository anneeAcademiqueRepository;
-    private final DossierAdmissionRepository dossierAdmissionRepository;
+    private final AdmissionRepository admissionRepository;
     private final InscriptionRepository inscriptionRepository;
 
     public Inscription ajouterInscription(Inscription inscription) {
@@ -66,6 +66,9 @@ public class InscriptionService {
     }
 
 
-
+//Par niveau 
+public List<Inscription> getInscriptionsByNiveauId(Long niveauId) {
+    return inscriptionRepository.findByNiveauId(niveauId);
+}
 
 }

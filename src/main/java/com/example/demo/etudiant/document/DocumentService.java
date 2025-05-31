@@ -1,6 +1,8 @@
 package com.example.demo.etudiant.document;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +27,11 @@ public class DocumentService {
     }
 
     public Document uploadDocument(MultipartFile file, String nom, String type, Etudiant etudiant) throws IOException {
+        boolean exists = documentRepository.existsByNomAndEtudiantId(nom, etudiant.getId());
+        if (exists) {
+            throw new RuntimeException("Un Document  portant le nom " + nom + " existe déjà.");
+        }
+
         // Créer un nouveau document
         Document document = new Document();
         document.setNom(nom);
@@ -49,5 +56,10 @@ public class DocumentService {
 
     public Document getDocument(Long documentId) {
         return documentRepository.findById(documentId).orElse(null);
+    }
+
+    //Supprimer un document
+    public void deleteDocument(final Long id){
+        documentRepository.deleteById(id);
     }
 }

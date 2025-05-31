@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.enums.Role;
 import com.example.demo.filiere.Filiere;
 import com.example.demo.filiere.FiliereService;
 import com.example.demo.niveau.Niveau;
@@ -32,7 +33,7 @@ public class EtudiantController {
     // Ajouter un nouvel étudiant
     @PostMapping("/save")
     public Etudiant ajouterEtudiant(@RequestBody Etudiant etudiant) {
-       
+        etudiant.setRole(Role.ROLE_ETUDIANT);
         return  etudiantService.ajouterEtudiant(etudiant);
     }
 

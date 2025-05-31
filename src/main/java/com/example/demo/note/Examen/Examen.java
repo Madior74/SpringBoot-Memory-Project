@@ -1,15 +1,11 @@
-package com.example.demo.note.devoir;
+package com.example.demo.note.Examen;
 
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
 import com.example.demo.Seance.Seance;
 import com.example.demo.etudiant.prinscription.Etudiant;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,37 +15,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+
 
 @Entity
 @Getter
 @Setter
-
-   
-@Table(name = "devoir")
-public class Devoir {
+@Table(name = "examen")
+public class Examen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private double note;
+    private boolean estTermine;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seance_id")
     @JsonBackReference
     private Seance seance;
 
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateDevoir;
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "etudiant_id")
     private Etudiant etudiant;
-
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime dateAttribution;
 }

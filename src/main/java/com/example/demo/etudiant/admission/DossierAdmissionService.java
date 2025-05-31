@@ -12,40 +12,40 @@ import com.example.demo.etudiant.prinscription.EtudiantRepository;
 public class DossierAdmissionService {
 
     @Autowired
-    private DossierAdmissionRepository dossierAdmissionRepository;
+    private AdmissionRepository admissionRepository;
 
     @Autowired
     private EtudiantRepository etudiantRepository;
 
     //Recuperer tous les dossiers
-    public List<DossierAdmission> getAllDossierAdmission() {
-        return dossierAdmissionRepository.findAllWithEtudiant();
+    public List<Admission> getAllDossierAdmission() {
+        return admissionRepository.findAll();
     }
     
     //Recuperer Un dossier
-    public DossierAdmission getDossierAdmissionById(Long id){
-        return dossierAdmissionRepository.findById(id).orElseThrow(() -> new RuntimeException("DossierAdmission non Trouvé"));
+    public Admission getDossierAdmissionById(Long id){
+        return admissionRepository.findById(id).orElseThrow(() -> new RuntimeException("DossierAdmission non Trouvé"));
     }
     
 
     //Recuperer les dosssiers par  Status
-    public List<DossierAdmission> getDossierAdmissionByStatus(String status){
-        return dossierAdmissionRepository.findByStatut(status);
+    public List<Admission> getDossierAdmissionByStatus(String status){
+        return admissionRepository.findByStatut(status);
     }
 
     //Creer un Nouveau Dossier d'Admission
-    public DossierAdmission createDossier(DossierAdmission dossier, Long etudiantId) {
+    public Admission createDossier(Admission dossier, Long etudiantId) {
         Etudiant etudiant = etudiantRepository.findById(etudiantId)
             .orElseThrow(() -> new RuntimeException("Etudiant non trouvé"));
     
         dossier.setEtudiant(etudiant);
-        return dossierAdmissionRepository.save(dossier);
+        return admissionRepository.save(dossier);
     }
     
 
 //Update
-public DossierAdmission updateDossier(Long id, DossierAdmission dossierDetails) {
-    DossierAdmission dossier = dossierAdmissionRepository.findById(id)
+public Admission updateDossier(Long id, Admission dossierDetails) {
+    Admission dossier = admissionRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Dossier non trouvé"));
 
     dossier.setCopieCni(dossierDetails.isCopieCni());
@@ -60,17 +60,17 @@ public DossierAdmission updateDossier(Long id, DossierAdmission dossierDetails) 
         dossier.setEtudiant(etudiant);
     }
 
-    return dossierAdmissionRepository.save(dossier);
+    return admissionRepository.save(dossier);
 }
 
     //Supprimer un Dossier
     public void deleteDossierAdmission(Long id){
-        dossierAdmissionRepository.deleteById(id);
+        admissionRepository.deleteById(id);
     }
 
 
     //Verification de l'existence d'un dossier
     public  boolean existsByEtudiant(Long etudiantId){
-        return  dossierAdmissionRepository.existsByEtudiantId(etudiantId);
+        return  admissionRepository.existsByEtudiantId(etudiantId);
     }
 }

@@ -65,4 +65,22 @@ public class InscriptionController {
         return inscriptionService.checkIfInscriptionExists(etudiantId, filiereId, anneeAcademiqueId);
     }
     
+
+    //Recuperer les inscriptions par niveau
+    @GetMapping("/niveau/{niveauId}")
+public List<Inscription> getInscriptionsByNiveau(@PathVariable Long niveauId) {
+    return inscriptionService.getInscriptionsByNiveauId(niveauId);
+}
+
+    // //Recuperer les inscriptions par etudiant
+    // @GetMapping("/etudiant/{etudiantId}")
+    // public List<Inscription> getInscriptionsByEtudiant(@PathVariable Long etudiantId) {
+    //     return inscriptionRepository.findByEtudiantId(etudiantId);
+    // }
+
+    // //Recuperer les inscriptions par filiere
+    // @GetMapping("/filiere/{filiereId}")
+    // public List<Inscription> getInscriptionsByFiliere(@PathVariable Long filiereId) {
+    //     return inscriptionRepository.findByFiliereId(filiereId);
+    // }
 }

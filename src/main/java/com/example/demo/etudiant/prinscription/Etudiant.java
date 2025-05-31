@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.demo.enums.Role;
-import com.example.demo.etudiant.admission.DossierAdmission;
+import com.example.demo.etudiant.admission.Admission;
 import com.example.demo.etudiant.document.Document;
 import com.example.demo.filiere.Filiere;
 import com.example.demo.niveau.Niveau;
@@ -25,7 +25,6 @@ import lombok.Setter;
 
 
 public class Etudiant extends Utilisateur {
-    //Attribution du role
     @Override
     public Role getRole() {
         return Role.ROLE_ETUDIANT;
@@ -37,7 +36,7 @@ public class Etudiant extends Utilisateur {
 
     @OneToOne(mappedBy = "etudiant", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("etudiant") // Au lieu de @JsonManagedReference
-    private DossierAdmission dossierAdmission;
+    private Admission dossierAdmission;
 
 
     @ManyToOne

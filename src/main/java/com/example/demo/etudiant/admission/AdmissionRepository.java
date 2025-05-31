@@ -9,13 +9,9 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface  DossierAdmissionRepository extends JpaRepository<DossierAdmission,Long>{
+public interface  AdmissionRepository extends JpaRepository<Admission,Long>{
 
-    List<DossierAdmission> findByStatut(String status);
+    List<Admission> findByStatut(String status);
                 boolean existsByEtudiantId(Long etudiantId);
-
-            @Query("SELECT d FROM DossierAdmission d JOIN FETCH d.etudiant")
-List<DossierAdmission> findAllWithEtudiant();
-
 
 }

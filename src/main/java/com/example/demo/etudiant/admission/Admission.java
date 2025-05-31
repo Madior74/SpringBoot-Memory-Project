@@ -18,7 +18,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString(exclude = "etudiant")
 
-public class DossierAdmission {
+public class Admission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +28,8 @@ public class DossierAdmission {
     private boolean releveNotes;
     private boolean diplome;
     private String remarque;
+    private double noteTest;
+    private double noteEntretien;
 
     private String statut; // EN_ATTENTE, COMPLET, REFUSE
 

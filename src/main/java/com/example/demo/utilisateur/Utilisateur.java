@@ -56,7 +56,7 @@ public abstract class Utilisateur {
     private String telephone;
     private String sexe;
     private String email;
- @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Enumerated(EnumType.STRING)

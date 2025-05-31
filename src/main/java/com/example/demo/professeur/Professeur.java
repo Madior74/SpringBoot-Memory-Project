@@ -3,7 +3,7 @@ package com.example.demo.professeur;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.cours.Cours;
+import com.example.demo.Seance.Seance;
 import com.example.demo.enums.Role;
 import com.example.demo.utilisateur.Utilisateur;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,7 +39,7 @@ public class Professeur extends Utilisateur {
     
     @OneToMany(mappedBy = "professeur")
     @JsonIgnore
-    private List<Cours> coursAssures = new ArrayList<>();
+    private List<Seance> seances = new ArrayList<>();
 
     @Override
     public Role getRole(){

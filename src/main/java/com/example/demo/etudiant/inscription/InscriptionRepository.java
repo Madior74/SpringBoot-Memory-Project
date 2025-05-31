@@ -19,4 +19,10 @@ boolean existsByEtudiantId(Long etudiantId);
 
  @Query("SELECT COUNT(i) FROM Inscription i WHERE i.filiere.id = :filiereId")
  int countEtudiantsByFiliereId(@Param("filiereId") Long filiereId);
+
+
+
+ //Par niveau
+ @Query("SELECT i FROM Inscription i WHERE i.niveau.id = :niveauId")
+List<Inscription> findByNiveauId(@Param("niveauId") Long niveauId);
 }

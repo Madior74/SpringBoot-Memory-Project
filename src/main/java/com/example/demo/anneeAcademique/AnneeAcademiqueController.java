@@ -6,8 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.service.AnneeAcademiqueService;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +15,7 @@ public class AnneeAcademiqueController {
 
     @Autowired
     private AnneeAcademiqueService anneeAcademiqueService;
+
 
    @PostMapping("/save")
     public ResponseEntity<AnneeAcademique> creategetAnneeAcademique(@RequestBody AnneeAcademique anneeAcademique) {
@@ -59,6 +58,10 @@ public class AnneeAcademiqueController {
         return ResponseEntity.noContent().build();
     }
 
-    // 
+    // Annee en Cours
 
+    @GetMapping("/en-cours")
+    public ResponseEntity<AnneeAcademique> getAnneeEnCours() {
+        return ResponseEntity.ok(anneeAcademiqueService.getAnneeAcademiqueEnCours());
+    }
 }

@@ -1,13 +1,11 @@
-package com.example.demo.service;
+package com.example.demo.anneeAcademique;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.anneeAcademique.AnneeAcademique;
-import com.example.demo.anneeAcademique.AnneeAcademiqueRepository;
 
 import lombok.Data;
 
@@ -35,5 +33,9 @@ public class AnneeAcademiqueService {
         anneeAcademiqueRepository.deleteById(id);
     }
 
-  
+    //l'annne En cours
+     public AnneeAcademique getAnneeAcademiqueEnCours() {
+        return anneeAcademiqueRepository.findCurrent(LocalDate.now())
+                .orElseThrow(() -> new RuntimeException("Aucune année académique en cours."));
+    }
 }

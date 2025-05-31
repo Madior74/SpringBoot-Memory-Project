@@ -1,5 +1,6 @@
 package com.example.demo.filiere;
 import java.util.List;
+import java.util.Optional;
 
 import com.example.demo.etudiant.inscription.InscriptionRepository;
 import org.apache.commons.lang3.tuple.Pair;
@@ -12,6 +13,7 @@ import com.example.demo.niveau.NiveauRepository;
 import com.example.demo.semestre.Semestre;
 import com.example.demo.semestre.SemestreRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.Data;
 
 
@@ -67,19 +69,25 @@ public class FiliereService {
     }
 
 //Auto 
+public Filiere createFiliereAvecStructure(FiliereRequest request) {
+    Optional<Filiere> existingFiliere = filiereRepository.findByNomFiliereIgnoreCase(request.getNomFiliere().trim());
+    if (existingFiliere.isPresent()) {
+        throw new RuntimeException("Une filière portant le nom " + request.getNomFiliere() + " existe déjà.");
+    }
 
-public Filiere createFiliereAvecStructure(String nomFiliere) {
     Filiere filiere = new Filiere();
-    filiere.setNomFiliere(nomFiliere);
+    filiere.setNomFiliere(request.getNomFiliere());
+    filiere.setDescription(request.getDescription());
+
+    filiere.setActif(true);
+
     filiere = filiereRepository.save(filiere);
 
-    // Définition des niveaux et semestres
     List<Pair<String, List<String>>> structure = List.of(
-            Pair.of("Licence 1", List.of("Semestre 1", "Semestre 2")),
-            Pair.of("Licence 2", List.of("Semestre 3", "Semestre 4")),
-            Pair.of("Licence 3", List.of("Semestre 5", "Semestre 6"))
+        Pair.of("Licence 1", List.of("Semestre 1", "Semestre 2")),
+        Pair.of("Licence 2", List.of("Semestre 3", "Semestre 4")),
+        Pair.of("Licence 3", List.of("Semestre 5", "Semestre 6"))
     );
-
 
     for (Pair<String, List<String>> entry : structure) {
         Niveau niveau = new Niveau();
@@ -95,7 +103,6 @@ public Filiere createFiliereAvecStructure(String nomFiliere) {
         }
     }
 
-
     return filiere;
 }
 
@@ -107,6 +114,11 @@ public Filiere createFiliereAvecStructure(String nomFiliere) {
 
 
 
+
+//     //Ver
+//     public List<Filiere> findByNomFiliereIgnoreCase(String nomFiliere) {
+//     return filiereRepository.findByNomFiliereIgnoreCase(nomFiliere);
+// }
 
 }
         

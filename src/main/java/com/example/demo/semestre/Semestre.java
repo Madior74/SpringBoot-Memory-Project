@@ -13,8 +13,10 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.Seance.Seance;
 import com.example.demo.niveau.Niveau;
 import com.example.demo.ue.UE;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Data
@@ -32,6 +34,10 @@ public class Semestre {
 
     @OneToMany(mappedBy = "semestre", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UE> ues = new ArrayList<>();
+
+    // @OneToMany(mappedBy = "semestre", cascade = CascadeType.ALL)
+    // @JsonIgnore
+    // private List<Seance> seances = new ArrayList<>();
 
    
 

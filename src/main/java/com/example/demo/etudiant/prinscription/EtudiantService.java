@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.ue.UeRepository;
@@ -17,8 +18,8 @@ public class EtudiantService {
 
     private final UeRepository ueRepository;
 
-
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private EtudiantRepository etudiantRepository;
@@ -27,12 +28,13 @@ public class EtudiantService {
 
 
 
-   
- public Etudiant ajouterEtudiant(Etudiant etudiant) {
+   public Etudiant ajouterEtudiant(Etudiant etudiant) {
         // Vérification que l'étudiant n'existe pas déjà (par CNI ou INE)
         if (etudiantRepository.findByCniOrIne(etudiant.getCni(), etudiant.getIne()) != null) {
             throw new RuntimeException("Un étudiant avec ce CNI ou INE existe déjà.");
         }
+         String motDePasseHache = passwordEncoder.encode(etudiant.getPassword());
+    etudiant.setPassword(motDePasseHache);
         // Définir la date d'ajout
         etudiant.setDateAjout(LocalDateTime.now());
         return etudiantRepository.save(etudiant);
@@ -108,7 +110,6 @@ public class EtudiantService {
             existingEtudiant.setTelephone(etudiant.getTelephone());
             existingEtudiant.setSexe(etudiant.getSexe());
             existingEtudiant.setEmail(etudiant.getEmail());
-            existingEtudiant.setPassword(etudiant.getPassword());
             existingEtudiant.setImagePath(etudiant.getImagePath());
             existingEtudiant.setPaysDeNaissance(etudiant.getPaysDeNaissance());
             existingEtudiant.setDateDeNaissance(etudiant.getDateDeNaissance());

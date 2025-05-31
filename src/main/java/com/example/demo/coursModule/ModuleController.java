@@ -86,44 +86,12 @@ public class ModuleController {
     }
     
 
-// //    //creer une nouveau Module
-// @PostMapping("/{ueId}/module")
-// public ResponseEntity<String> addModuleToUE(@PathVariable Long ueId, @RequestBody CourseModule module) {
-//     try {
-//         moduleService.addModuleToUE(ueId, module);
-//         return ResponseEntity.status(HttpStatus.CREATED).body("Module ajouté avec succès à l'UE");
-//     } catch (RuntimeException e) {
-//         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-//     } catch (Exception e) {
-//         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout du module : " + e.getMessage());
-//     }
-// }
+//creer une nouveau Module
+@PostMapping("/ue/{ueId}")
+public ResponseEntity<Map<String, Object>> addModuleToUE(
+        @PathVariable Long ueId,
+        @RequestBody CourseModule courseModuleDetail) {
 
-
-    // @PostMapping("/ue/{ueId}")
-    // public ResponseEntity<?> addModuleToUE(@PathVariable Long ueId,@RequestBody CourseModule courseModuleDetail ){
-    //     //Verifivation si l'Ue existe
-    //     UE ue=ueService.findById(ueId);
-    //     if(ue==null){
-    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("UE non trouvé");
-    //     }
-
-    //     //Verification si le module existe deja dans l'UE
-    //     boolean moduleExists=moduleService.existsByNomModuleAndUe(courseModuleDetail.getNomModule(), ue);
-
-    //     if (moduleExists) {
-    //         return ResponseEntity.status(HttpStatus.CONFLICT).body("Ce module existe deja dans cette UE");
-            
-    //     }
-
-    //     //Creer le module
-    //     courseModuleDetail.setUe(ue);
-    //     CourseModule savCourseModule=moduleService.saveModule(courseModuleDetail);
-
-    //     return ResponseEntity.status(HttpStatus.CREATED).body(savCourseModule);
-    // }
-    @PostMapping("/ue/{ueId}")
-public ResponseEntity<Map<String, Object>> addModuleToUE(@PathVariable Long ueId, @RequestBody CourseModule courseModuleDetail) {
     Map<String, Object> response = new HashMap<>();
 
     // Vérification si l'UE existe
@@ -153,6 +121,37 @@ public ResponseEntity<Map<String, Object>> addModuleToUE(@PathVariable Long ueId
 
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
 }
+//     @PostMapping("/ue/{ueId}")
+// public ResponseEntity<Map<String, Object>> addModuleToUE(@PathVariable Long ueId, @RequestBody CourseModule courseModuleDetail) {
+//     Map<String, Object> response = new HashMap<>();
+
+//     // Vérification si l'UE existe
+//     UE ue = ueService.findById(ueId);
+//     if (ue == null) {
+//         response.put("status", "ERROR");
+//         response.put("message", "UE non trouvé");
+//         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+//     }
+
+//     // Vérification si le module existe déjà dans l'UE
+//     boolean moduleExists = moduleService.existsByNomModuleAndUe(courseModuleDetail.getNomModule(), ue);
+//     if (moduleExists) {
+//         response.put("status", "ERROR");
+//         response.put("message", "Ce module existe déjà dans cette UE");
+//         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+//     }
+
+//     // Création du module
+//     courseModuleDetail.setUe(ue);
+//     CourseModule savedCourseModule = moduleService.saveModule(courseModuleDetail);
+
+//     // Réponse en cas de succès
+//     response.put("status", "SUCCESS");
+//     response.put("message", "Module ajouté avec succès");
+//     response.put("data", savedCourseModule);
+
+//     return ResponseEntity.status(HttpStatus.CREATED).body(response);
+// }
 
 
    ///Supprimer Un Module
@@ -172,5 +171,17 @@ public ResponseEntity<Map<String, Object>> addModuleToUE(@PathVariable Long ueId
     }
     
 
+
+
+    //Volume horaire programme et déroulé
+     @GetMapping("/{id}/volume-deroule")
+    public ResponseEntity<Integer> getVolumeHoraireDeroule(@PathVariable Long id) {
+        CourseModule module = moduleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Module non trouvé avec l'id : " + id));
+
+        int volumeDeroule = module.getVolumeHoraireDeroule();
+
+        return ResponseEntity.ok(volumeDeroule);
+    }
     
 }

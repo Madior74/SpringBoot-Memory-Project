@@ -54,21 +54,6 @@ public class ModuleService {
 
 
 
-    // //Ajout
-    // @Transactional
-    // public void addModuleToUE(Long ueId, CourseModule module) {
-    //     Optional<UE> ueOptional = ueRepository.findById(ueId);
-    //     if (ueOptional.isPresent()) {
-    //         UE ue = ueOptional.get();
-    //         module.setUe(ue); // Associer le module à l'UE
-    //         module.setDateAjout(LocalDateTime.now());
-    //         moduleRepository.save(module); // Sauvegarder le module
-    //         ue.addModule(module); // Ajouter le module à l'UE
-    //         ueRepository.save(ue); // Sauvegarder l'UE
-    //     } else {
-    //         throw new RuntimeException("UE not found with id: " + ueId);
-    //     }
-    // }
 
 
     public CourseModule saveModule(CourseModule module) {
